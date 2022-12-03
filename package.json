@@ -1,0 +1,29 @@
+{
+  "name": "only-me",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --port 4173",
+    "start": "vite --host"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "graphql": "^16.6.0",
+    "js-base64": "^3.7.2",
+    "pinia": "^2.0.16",
+    "scrollreveal": "^4.0.9",
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.2",
+    "vue-scroll-reveal": "^1.0.11",
+    "vue2-smooth-scroll": "^1.6.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.1",
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.6",
+    "vite": "^3.0.1"
+  }
+}

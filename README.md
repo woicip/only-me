@@ -1,2 +1,2 @@
-# only-me
-Only Me - Send your anonymous message
+# Only Me
+Send Your Message Transparently but Anonymously

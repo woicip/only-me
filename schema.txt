@@ -1,0 +1,34 @@
+OnlyMe Data Schema
+
+type Message {
+  id: String
+  sender: String
+  message: String
+  postedAt: Date Object
+  comments: Array
+}
+
+type User {
+  id: String
+  username: String
+  avatar: String
+  bio: String
+  messages: [Message]
+}
+
+User's Messages:
+  - Sender -> Default: Anonymous
+  - Message
+  - Posted at
+  - Comment
+
+User Data:
+  - User ID
+  - Fullname
+  - User's Bio
+  - Messages
+    - Message ID
+    - Sender
+    - Posted At
+    - Content
+    - Comments
