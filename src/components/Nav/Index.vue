@@ -20,7 +20,6 @@
             </div>
     
             <div class="flex items-center">
-                <a href="#home" class="mr-[50px] text-sm text-white/50 font-light hover:text-white tablet:hidden">Home</a>
                 <a href="#offers" class="mr-[50px] text-sm text-white/50 font-light hover:text-white tablet:hidden">Offers</a>
                 <a href="#about" class="mr-[50px] text-sm text-white/50 font-light hover:text-white tablet:hidden">About</a>
                 <a href="#faq" class="text-sm text-white/50 font-light hover:text-white tablet:hidden">FAQ</a>

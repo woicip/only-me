@@ -71,7 +71,7 @@
                     <h1 class="w-full text-2xl text-center font-bold mobileL:text-[18]">What <span class="font-bold text-indigo-400">OnlyMe</span> offers to you ?</h1>
     
                     <section class="mt-[50px] grid grid-cols-3 gap-3 672px:grid-cols-1">
-                        <div class="p-[20px] rounded-xl bg-white/10 hover:bg-indigo-500 transition-all border border-white/10">
+                        <div class="p-[20px] pb-[10px] rounded-xl bg-white/10 hover:bg-indigo-500 transition-all border border-white/10">
                             <h1 class="font-bold text-[18px]">Convenient UI</h1>
                             <p class="mt-[15px] text-sm leading-normal text-white/70">Made with comfortable and easy to understand UI for user convenience</p>
                         </div>
@@ -92,7 +92,11 @@
             <section id="about" class="w-[900px] mt-[200px] mx-auto relative laptop:px-[50px] mobileL:px-[30px] tablet:w-screen">
                 <h1 class="text-3xl font-bold">About </h1>
                 <div class="w-[90px] h-[20px] bg-indigo-500 opacity-50 relative bottom-[15px] left-[20px] z-[-1] mobileL:w-[110px]"></div>
-                <p class="mt-[20px] text-sm text-white/50 leading-6">OnlyMe is a simple Web Application which you can send secret anonymous message to anyone (as long as they have the user profile). With OnlyMe you don't need to refresh the page everytime you send a message because OnlyMe will do update messages for you</p>
+                <p class="mt-[20px] text-lg text-white leading-relaxed">
+                    OnlyMe is a simple Web Application which you can send secret anonymous message to anyone (as long as they have the user profile). 
+                    <br/><br/>
+                    Send your anonymous message or confess to your friend or someone you know or even public figure (if exist) without need to worry about your real identity.
+                </p>
             </section>
 
             <section id="faq" class="w-[900px] mt-[200px] mx-auto laptop:px-[50px] mobileL:px-[30px] tablet:w-screen">
@@ -105,7 +109,7 @@
                 </div>
                 <div>
                     <button class="w-full text-left text-[16px]  font-medium border-b border-white/10 py-[15px] mobileL:text-[15px]" @click="() => faq_two = !faq_two"><span class="italic text-white/30 mr-[20px]">02</span>Who is created OnlyMe ?</button>
-                    <p v-if="faq_two" class="mt-[10px] mb-[20px] text-sm leading-6 text-white/70 ml-[40px]">Check out this cool guy <a href="https://github.com/gnwncpta" target="_blank" class="underline text-blue-400">Gunawan Cipta</a> </p>
+                    <p v-if="faq_two" class="mt-[10px] mb-[20px] text-sm leading-6 text-white/70 ml-[40px]">Check out this cool guy <a href="https://github.com/woicip" target="_blank" class="underline text-blue-400">Cipta</a> </p>
                 </div>
                 <div>
                     <button class="w-full text-left text-[16px]  font-medium border-b border-white/10 py-[15px] mobileL:text-[15px]" @click="() => faq_three = !faq_three"><span class="italic text-white/30 mr-[20px]">03</span>Is OnlyMe Free ?</button>

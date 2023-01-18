@@ -1,7 +1,24 @@
 <script setup>
     import { ref, onUnmounted } from 'vue';
     import { useRouter } from 'vue-router';
+
+    // Components
+    import MiniBanner from '../components/Register/MiniBanner.vue';
+    import SignUpActive from '../components/Register/SignUpActive.vue';
+    import SignUpDisable from '../components/Register/SignUpDisable.vue';
+    import ErrorNotification from '../components/Register/ErrorNotification.vue';
+    import SuccessNotification from '../components/Register/SuccessNotification.vue';
+    import LoadingButton from '../components/Buttons/Loading.vue';
+    import EyeOn from '../components/Input/EyeOn.vue';
+    import EyeOff from '../components/Input/EyeOff.vue';
+    import PasswordContainer from '../components/Input/PasswordContainer.vue';
+    import PasswordOn from '../components/Input/PasswordOn.vue';
+    import PasswordOff from '../components/Input/PasswordOff.vue';
+    import Logo from '../components/Register/Logo.vue';
+    import FormContainer from '../components/Register/FormContainer.vue';
     import InputText from '../components/Input/Text.vue';
+    import InputEmail from '../components/Input/Email.vue';
+    import AlreadyHave from '../components/Register/AlreadyHave.vue';
 
     // GraphQL
     import graphql from '../fetchs/graphql';
@@ -11,6 +28,7 @@
 
     const username = ref("");
     const password = ref("");
+    const email = ref("");
     const showPass = ref(false);
     const process = ref(false);
     const problem = ref({ show: false, message: "" });
@@ -21,12 +39,16 @@
         username.value = value;
     }
 
+    function emailInput(value){
+        email.value = value;
+    }
+
     function showPassHandler(){
         showPass.value = !showPass.value;
     }
 
-    function passwordInput(e){
-        password.value = e.target.value;
+    function passwordInput(value){
+        password.value = value;
     }
 
     const timeout = ref(null);
@@ -34,6 +56,7 @@
 
     async function register(){
         process.value = true;
+
         const register = await graphql({ query: registerUser(username.value, password.value) });
         const { status, message } = register.data.register;
         if(status === "OK"){
@@ -67,68 +90,42 @@
 </script>
 
 <template>
-    <main class="w-screen h-screen flex items-center justify-center">
-        <section class="w-[45%] laptop:w-[75%] tablet:w-[85%] laptopL:w-[60%]">
-            <div class="h-fit fixed top-[50px]">
-                <a href="/" class="text-white font-medium">OnlyMe</a>
-            </div>
+    <main class="w-full h-full flex items-center justify-center">
+        <section class="my-[300px] tablet:my-[200px] w-[45%] laptop:w-[75%] tablet:w-[85%] 900px:w-[90%] laptopL:w-[60%]">
+            <Logo />
 
-            <div class="w-full flex items-start justify-between mobileL:flex-col">
-                <div class="h-full">
-                    <h1 class="text-[38px] text-white font-bold mobileL:text-3xl">Sign Up</h1>
-                    <p class="mt-[100px] mobileL:mt-[10px] text-white/50">Sign up now to get started and make your <br/>own host anonymous message.</p>
-                    <div class="w-[140px] h-[20px] bg-indigo-500 opacity-50 relative bottom-[165px] left-[24px] mobileL:bottom-[70px] mobileL:left-[24px] z-[-1] mobileL:w-[110px]"></div>
-                </div>
+            <div class="w-full flex items-start justify-between tablet:flex-col">
+                <MiniBanner />
     
-                <div class="my-0 w-[1px] h-full border border-white/10 mobileL:hidden"></div>
-    
-                <div class="w-[40%] mobileL:w-full mobileL:mt-[30px]">
-                    <div v-if="problem.show" class="mb-[10px] bg-red-500 px-[15px] py-[3px] rounded-lg animate-fadeIn">
-                        <p class="text-sm text-white">{{ problem.message }}</p>
-                    </div>
-
-                    <div v-if="success.show" class="flex items-center justify-between mb-[10px] bg-green-500/50 px-[15px] py-[10px] rounded-lg animate-fadeIn">
-                        <p class="text-sm text-white">{{ success.message }}</p>
-                        <p class="text-sm text-white font-bold">{{ timer }}</p>
-                    </div>
+                <FormContainer>
+                    <ErrorNotification v-if="problem.show" :message="problem.message" />
+                    <SuccessNotification v-if="success.show" :message="success.message" :timer="timer" />
 
                     <InputText name="Username" placeholder="smithster" :value="username" :handler="usernameInput" />
-                    <div class="mt-[10px] py-[10px] px-[15px] bg-white/5 rounded-[8px] relative ring-1 ring-white/10">
-                        <p class="text-[11px] text-white/50 font-light">Password</p>
-    
-                        <img v-if="!showPass" src="../assets/interface-edit-view-interface-white.svg" alt="icon" class="w-[21px] h-full absolute top-0 right-5 cursor-pointer z-10" @click="showPassHandler">
-                        <img v-else-if="showPass" src="../assets/interface-edit-view-off-interface-white.svg" alt="icon" class="w-[21px] h-full absolute top-0 right-5 cursor-pointer z-10" @click="showPassHandler">
-    
-                        <input v-if="!showPass" :value="password" type="password" placeholder="•••••••••" class="w-full text-white bg-transparent focus:outline-none placeholder:text-white/20" @input="passwordInput">
-                        <input v-else-if="showPass" :value="password" type="text" placeholder="•••••••••" class="w-full text-white bg-transparent focus:outline-none placeholder:text-white/20" @input="passwordInput">
-                    </div>
+                    <InputEmail placeholder="smithster@mail.com" :value="email" :handler="emailInput" />
 
-                    <div v-if="!process">
-                        <button v-if="username.length > 3 && password.length > 6" class="w-full mt-[10px] text-white font-bold py-[13px] px-[15px] bg-indigo-500 animate-fadeIn rounded-lg transition-all" @click="register">Sign Up</button>
-                        <button v-else disabled class="w-full mt-[10px] text-white font-bold py-[13px] px-[15px] bg-indigo-500 rounded-lg opacity-20">Sign Up</button>
-                    </div>
+                    <PasswordContainer>
+                        <EyeOn v-if="showPass" :handler="showPassHandler" />
+                        <EyeOff v-else :handler="showPassHandler" />
+                        <PasswordOn v-if="showPass" :password="password" :handler="passwordInput" />
+                        <PasswordOff v-else :password="password" :handler="passwordInput" />
+                    </PasswordContainer>
 
-                    <div v-else>
-                        <button class="w-full mt-[10px] text-white font-bold py-[13px] px-[15px] bg-indigo-500 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="25px" height="25px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                                <circle cx="50" cy="50" fill="none" stroke="#ffffff" stroke-width="13" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
-                                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
-                                </circle>
-                            </svg>
-                        </button>
-                    </div>
+                    <section>
+                        <div v-if="!process">
+                            <SignUpActive v-if="username.length > 3 && password.length > 6 && email.includes('@')" :register="register" />
+                            <SignUpDisable v-else />
+                        </div>
+                        <LoadingButton v-else />
+                    </section>
 
-                    <div class="mt-[20px]">
-                        <p class="text-white/50 font-thin text-[13px]">Already have an account ?</p>
-                        <a href="/login" class="text-[13px] text-white/50 hover:underline hover:text-indigo-500">Login</a>
-                    </div>
-                </div>
+                    <AlreadyHave />
+                </FormContainer>
             </div>
 
-            <div class="fixed bottom-[40px]">
-                <p class="text-white/30 text-xs font-thin">Part of CiptaCreate</p>
+            <div class="tablet:mt-[100px]">
+                <p class="text-white/30 text-xs font-thin">© Copyright OnlyMe 2023</p>
             </div>
         </section>
-
     </main>
 </template>

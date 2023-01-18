@@ -4,10 +4,10 @@
             
             <div class="h-full flex flex-col justify-between">
                 <h1 class="font-bold text-[17px] text-white">OnlyMe</h1>
+                <p class="mt-[5px] text-sm text-white/40">Send Your Anonymous Message</p>
 
-                <div class="mt-[20px]">
-                    <p class="mb-[5px] text-xs text-white/40">We Love OSS ❤</p>
-                    <p class="w-[80%] text-white/20 text-xs">This is an open source project if you want to contribute you can check the project on <a href="https://github.com/gnwncpta/only-me" target="_blank" class="underline">GitHub</a></p>
+                <div class="mt-[25px]">
+                    <p class="w-[60%] text-white/40 text-sm">This is free application that the founder made.</p>
                 </div>
             </div>
 

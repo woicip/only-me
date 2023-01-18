@@ -7,6 +7,7 @@ module.exports = {
   theme: {
     screens: {
       'laptopL': { 'max': '1440px'},
+      'laptopM': { 'max': '1336px'},
       'laptop': { 'max': '1024px'},
       '900px': { 'max': '900px'},
       'tablet': { 'max': '768px' },

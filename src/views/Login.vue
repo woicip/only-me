@@ -2,7 +2,19 @@
     import { onMounted, ref } from 'vue';
     import { useRouter } from 'vue-router';
     import { useAuthStore } from '../stores/authUser';
+
+    // Components
+    import DontHave from '../components/Login/DontHave.vue';
+    import SignInActive from '../components/Login/SignInActive.vue';
+    import Logo from '../components/Login/Logo.vue';
+    import Username from '../components/Input/Username.vue';
     import LoadingButton from '../components/Buttons/Loading.vue';
+    import PasswordContainer from '../components/Input/PasswordContainer.vue';
+    import EyeOff from '../components/Input/EyeOff.vue';
+    import EyeOn from '../components/Input/EyeOn.vue';
+    import PasswordOff from '../components/Input/PasswordOff.vue';
+    import PasswordOn from '../components/Input/PasswordOn.vue';
+    import FailNotification from '../components/Login/FailNotification.vue';
 
     // graphql
     import graphql from '../fetchs/graphql';
@@ -24,12 +36,12 @@
     };
     const loginProcess = ref(false);
 
-    function usernameInput(e){
-        username.value = e.target.value;
+    function usernameInput(value){
+        username.value = value;
     }
 
-    function passwordInput(e){
-        password.value = e.target.value;
+    function passwordInput(value){
+        password.value = value;
     }
 
     function showPassHandler(){
@@ -83,40 +95,32 @@
 </script>
 
 <template>
-    <main class="w-screen h-screen mobileL:px-[15px] flex flex-col items-center justify-center animate-fadeIn">
-        <section class="w-[400px] mobileL:px-[20px] mobileL:w-screen">
-            <a href="/" class="w-fit mt-[30px] text-white hover:underline items-center fixed top-10"> OnlyMe </a>
+    <main class="w-full h-full flex flex-col items-center justify-center animate-fadeIn">
+        <section class="my-[300px] tablet:my-[280px] w-[25%] tablet:w-[85%] laptop:w-[40%]">
+            <Logo />
 
             <section class="w-full mobileL:w-full">
-                <h1 class="w-full text-left text-white text-lg">Sign in to <span class="font-bold">OnlyMe</span></h1>
+                <h1 class="w-full text-left text-white text-lg">
+                    Sign in to <span class="font-bold">OnlyMe</span>
+                </h1>
     
                 <div class="mt-[40px]">
-                    <p v-if="loginFail.show.value" class="text-red-500 font-semibold text-sm rounded-md">{{ loginFail.message }}</p>
+                    <FailNotification v-if="loginFail.show.value" :message="loginFail.message" />
     
-                    <div class="mt-[10px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5">
-                        <p class="text-[11px] text-white/30 font-light">Username</p>
-                        <input v-bind:value="username" type="text" name="username" id="username" placeholder="John Wells" class="w-full text-white bg-transparent focus:outline-none placeholder:text-white/30" @input="usernameInput"/>
-                    </div>
-    
-                    <div class="mt-[10px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">
-                        <p class="text-[11px] text-white/30 font-light">Password</p>
-                        <img v-if="!showPass" src="../assets/interface-edit-view-interface-white.svg" alt="icon" class="w-[21px] h-full absolute top-0 right-5 cursor-pointer z-10" @click="showPassHandler">
-                        <img v-else src="../assets/interface-edit-view-off-interface-white.svg" alt="icon" class="w-[21px] h-full absolute top-0 right-5 cursor-pointer z-10" @click="showPassHandler">
-    
-                        <input v-if="!showPass" v-bind:value="password" type="password" name="password" id="password" placeholder="•••••••••" class="w-full text-white bg-transparent focus:outline-none" @input="passwordInput"/>
-                        <input v-else v-bind:value="password" type="text" name="password" id="password" placeholder="•••••••••" class="w-full text-white bg-transparent focus:outline-none" @input="passwordInput"/>
-                    </div>
+                    <Username placeholder="John Smith" :value="username" :handler="usernameInput"  />
+                    <PasswordContainer>
+                        <EyeOff v-if="!showPass" :handler="showPassHandler" />
+                        <EyeOn v-else :handler="showPassHandler" />
+                        <PasswordOff v-if="!showPass" :password="password" :handler="passwordInput" />
+                        <PasswordOn v-else :password="password" :handler="passwordInput" />
+                    </PasswordContainer>
                     
                     <LoadingButton v-if="loginProcess"/>
-                    <button v-else v-show="username.length && password.length" class="w-full mt-[10px] py-[14px] text-md rounded-[8px] text-white text-[16px] font-semibold bg-indigo-500 animate-fadeIn focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-600" @click="login">Sign In</button>
+                    <SignInActive v-else :username="username" :password="password" :login="login" />
                 </div>
-    
             </section>
     
-            <div class="mt-[10px] py-[10px]">
-                <p class="text-white/50 font-thin text-[13px]">Doesn't have an account ? </p>
-                <a href="/register" class="text-[13px] text-white/50 hover:underline hover:text-white">Sign Up</a>
-            </div>
+            <DontHave />
 
             <div>
                 <p class="text-xs text-white/20 fixed bottom-10">Copyright OnlyMe@2022</p>
