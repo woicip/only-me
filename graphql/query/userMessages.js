@@ -1,7 +1,7 @@
 export default function user(id){
     return `query GetUserMessages {
         userMessages(id: "${id}"){
-            code
+            status
             messages {
                 id
                 sender
