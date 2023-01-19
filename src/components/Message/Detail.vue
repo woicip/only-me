@@ -1,7 +1,22 @@
 <script>
-    import Comment from '../Comment/Index.vue';
+
+    // Components
+    import DetailContainer from './Detail/Container.vue';
+    import Wrapper from './Detail/Wrapper.vue';
+    import DeletingMessage from './Detail/DeletingMessage.vue';
     import RemoveWarning from '../Remove/Index.vue';
-    import doRemoveMessage from '../../fetchs/removeMessage';
+    import CloseButton from './Detail/CloseButton.vue';
+    import DeleteButton from './Detail/DeleteButton.vue';
+    import SenderMessage from './Detail/SenderMessage.vue';
+    import Timestamp from './Detail/Timestamp.vue';
+    import CommentContainer from './Detail/Comment/Container.vue';
+    import CommentSection from './Detail/Comment/Section.vue';
+    import CommentBox from './Detail/Comment/Box.vue';
+    import CommentButton from './Detail/Comment/SendButton.vue';
+    import SenderMessageContainer from './Detail/SenderMessageContainer.vue';
+    import CommentList from './Detail/Comment/CommentList.vue';
+    import TopSenderMessage from './Detail/TopSenderMessage.vue';
+
 
     // graphql
     import graphql from '../../fetchs/graphql';
@@ -11,7 +26,21 @@
     export default {
         components: {
             Comment,
-            RemoveWarning
+            RemoveWarning,
+            DeletingMessage,
+            CloseButton,
+            DeleteButton,
+            SenderMessage,
+            Timestamp,
+            CommentContainer,
+            DetailContainer,
+            Wrapper,
+            TopSenderMessage,
+            CommentSection,
+            CommentBox,
+            CommentButton,
+            SenderMessageContainer,
+            CommentList
         },
         props: {
             id: String,
@@ -118,77 +147,30 @@
 </script>
 
 <template>
-    <section class="overflow-hidden h-full mb-[10px] rounded-[15px] relative">
+    <DetailContainer>
         <RemoveWarning v-if="!deleting" :remove="remove" :disappearRemoveWarning="disappearRemoveWarning" :userRemoveMessage="userRemoveMessage" />
+        <DeletingMessage v-if="deleting && remove" />
 
-        <!-- Deleting Message -->
-        <section v-if="deleting && remove" class="w-full h-full bg-white/10 absolute z-10 flex flex-col items-center justify-center">
-            <div>
-                <p class="mb-[10px] text-white font-bold text-lg mobileL:text-md">Deleting Message</p>
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="22px" height="22px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                    <circle cx="50" cy="50" fill="none" stroke="#ffffff" stroke-width="13" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
-                    <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
-                    </circle>
-                </svg>
-            </div>
-        </section>
-
-        <div class="w-full h-fit pb-[13px]  flex flex-col items-start justify-between text-white bg-white/10 overflow-hidden rounded-[15px] animate-fadeIn"
-            :class="{ 'bg-red-700': remove, 'blur-sm': remove }">
-    
-    
-            <div class="w-full py-[15px] px-[20px] flex items-start justify-between">
-                <div class="text-left">
-                    <div class="flex items-center">
-                        <h1 class="text-[15px] font-bold">{{ sender }}</h1>
-                        <div class="mx-[10px] w-[3px] h-[3px] bg-white/40 rounded-full"></div>
-                        <p class="text-[12px] text-white/40">{{ hoursMinutes }}</p>
+        <Wrapper :remove="remove">
+            <SenderMessageContainer>
+                <TopSenderMessage>
+                    <SenderMessage :sender="sender" :hoursMinutes="hoursMinutes" :message="message" />
+                    <div>
+                        <DeleteButton v-if="dashboard" :handler="doAskConfirmRemove" />
+                        <CloseButton v-else :handler="toggleDetail" />
                     </div>
-                    <p v-bind:innerHTML="message" class="mt-[5px] text-[14px] mobileL:text-[14px] text-white/80"></p>
-                </div>
+                </TopSenderMessage>
+                <Timestamp :dateTimestamp="dateTimestamp" :commentLength="comments.length" />
+            </SenderMessageContainer>
     
-                <div>
-                    <button v-if="dashboard" class="py-[8px] px-[8px] text-white/25 hover:text-white bg-white/0 hover:bg-red-500/90 rounded-full" @click="doAskConfirmRemove">
-                        <svg width="17" height="17" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 3.5H13" stroke="white" stroke-opacity="0.50" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M2.5 3.5H11.5V12.5C11.5 12.7652 11.3946 13.0196 11.2071 13.2071C11.0196 13.3946 10.7652 13.5 10.5 13.5H3.5C3.23478 13.5 2.98043 13.3946 2.79289 13.2071C2.60536 13.0196 2.5 12.7652 2.5 12.5V3.5Z" stroke="white" stroke-opacity="0.50" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M4.5 3.5V3C4.5 2.33696 4.76339 1.70107 5.23223 1.23223C5.70107 0.763392 6.33696 0.5 7 0.5C7.66304 0.5 8.29893 0.763392 8.76777 1.23223C9.23661 1.70107 9.5 2.33696 9.5 3V3.5" stroke="white" stroke-opacity="0.50" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M5.5 5.5V11" stroke="white" stroke-opacity="0.50" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8.5 5.5V11" stroke="white" stroke-opacity="0.50" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
+            <CommentContainer>
+                <CommentSection>
+                    <CommentBox :comment="comment" :handler="textareaGrow" />
+                    <CommentButton :comment="comment" :showSendProcess="showSendProcess" :handler="userPostComment" />
+                </CommentSection>
 
-                    <button v-else class="py-[2px] px-[5px] text-xs text-white/25 hover:text-white hover:bg-white/10 rounded-full" @click="toggleDetail({ show: false, id: null })">Close</button>
-                </div>
-            </div>
-    
-            <div class="comments w-full mt-[25px] text-sm flex flex-col items-start justify-between">
-                <div class="flex items-center mb-[5px]">
-                    <p class="text-[12px] pl-[20px] text-white/40 hover:underline">{{ dateTimestamp }}</p>
-                    <div class="mx-[10px] w-[3px] h-[3px] bg-white/40 rounded-full"></div>
-                    <p class="text-[12px] text-white/40 hover:underline">{{ comments.length }} Comments</p>
-                </div>
-    
-                <div class="comment-section mt-[5px] w-full flex justify-between border-b border-t border-white/10">
-                    <textarea name="comment-box" id="comment-box" :value="comment" placeholder="Write your comment ..." class="bg-black/5 resize-none w-full min-h-[45px] text-white leading-[24px] p-[10px] px-[20px] focus:outline-none" @keyup="textareaGrow"></textarea>
-                    
-                    <div class="">
-                        <button v-if="comment" class="h-full flex flex-col px-4 text-white border-white/10 bg-indigo-500" @click="userPostComment">
-                            <p v-if="!showSendProcess" class="mt-5 font-bold text-white">SEND</p>
-                            <img v-else src="../../assets/loading-white.svg" alt="loading" class="w-[24px] h-full" />
-                        </button>
-
-                        <button v-else class="h-full px-4 font-bold text-white/10 border-white/10 bg-black/5" disabled>SEND</button>
-                    </div>
-                </div>
-    
-                <section class="comment-content w-full">
-                    <div v-for="comment in comments" :key="comment.id">
-                        <Comment :author="comment.author" :message="comment.message" :time="comment.postedAt" />
-                    </div>
-                </section>
-            </div>
-        </div>
-        
-    </section>
+                <CommentList :comments="comments" />
+            </CommentContainer>
+        </Wrapper>
+    </DetailContainer>
 </template>
