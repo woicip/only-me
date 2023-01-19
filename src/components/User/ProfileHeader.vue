@@ -12,11 +12,11 @@
 
 <template>
     <main>
-        <section class="flex items-start">
-            <img v-if="avatar !== null" :src="avatar" :alt="username" class="w-[70px] h-[70px] rounded-full object-cover">
-            <img v-if="avatar === null" src="https://www.theparentingplace.net/wp-content/uploads/2021/02/BlankImage.jpg" :alt="username" class="w-[70px] h-[70px] rounded-full object-cover">
+        <section class="flex items-center">
+            <img v-if="avatar !== null" :src="avatar" :alt="username" class="w-[80px] h-[80px] mobileL:w-[70px] mobileL:h-[70px] rounded-full object-cover">
+            <img v-if="avatar === null" src="https://www.theparentingplace.net/wp-content/uploads/2021/02/BlankImage.jpg" :alt="username" class="w-[80px] h-[80px] mobileL:w-[70px] mobileL:h-[70px] rounded-full object-cover">
     
-            <div class="ml-[15px] pt-[10px]">
+            <div class="ml-[20px]">
                 <div>
                     <h1 class="text-white font-bold text-lg">{{ fullname === null ? username : fullname }}</h1>
                     <div class="flex items-center">

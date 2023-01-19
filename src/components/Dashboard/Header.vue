@@ -15,10 +15,10 @@
     <section>
         <div class="header mt-[30px] mobileL:mt-[30px] mobileL:w-full flex items-center justify-between">
             <div class="flex items-center">
-                <img v-if="avatar !== null" :src="avatar" alt="avatar" class="w-[80px] h-[80px] mobileL:w-[70px] mobileL:h-[70px] rounded-full object-cover ">
+                <img v-if="avatar !== null" :src="avatar" alt="avatar" class="w-[80px] h-[80px] mobileL:w-[70px] mobileL:h-[70px] rounded-full object-cover">
                 <img v-else src="https://www.theparentingplace.net/wp-content/uploads/2021/02/BlankImage.jpg" alt="avatar" class="w-[80px] h-[80px] mobileL:w-[70px] mobileL:h-[70px] rounded-full object-cover ">
 
-                <div class="ml-[30px] mobileL:ml-[20px]">
+                <div class="ml-[20px] mobileL:ml-[20px]">
                     <h1 class="fullname text-lg font-bold mobileL:text-[16px]">{{ fullname !== null ? fullname : username }}</h1>
                     <div class="flex items-center">
                         <p class="username text-white/40 text-sm mobileL:text-[13px]">@{{ username }}</p>

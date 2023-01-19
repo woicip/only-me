@@ -5,7 +5,7 @@
     import Message from '../components/Message/Message.vue'
     import MessageDetail from '../components/Message/Detail.vue';
     import MessageNotAvailable from '../components/Message/NotAvailable.vue';
-    import User from '../components/Header/User.vue';
+    import User from '../components/User/ProfileHeader.vue';
     import InputText from '../components/Input/Text.vue';
     import InputTextarea from '../components/Input/Textarea.vue';
     import ActiveButton from '../components/Buttons/Active.vue';

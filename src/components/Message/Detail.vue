@@ -122,8 +122,9 @@
             doAskConfirmRemove(){
                 this.remove = !this.remove;
             },
-            commentInputHandler(e){
-                this.comment = e.target.value;
+            commentInputHandler(value){
+                console.log(value);
+                this.comment = value;
             },
             disappearRemoveWarning(){
                 this.remove = false;
@@ -133,7 +134,7 @@
                 const value = e.target.value;
                 this.comment = value;
 
-                const minHeight = 45;
+                const minHeight = 50;
                 const lineHeight = 24;
                 const padding = 10;
                 const borderRadius = 6;
@@ -165,7 +166,7 @@
     
             <CommentContainer>
                 <CommentSection>
-                    <CommentBox :comment="comment" :handler="textareaGrow" />
+                    <CommentBox :comment="comment" :commentInputHandler="commentInputHandler" :textareaGrow="textareaGrow" />
                     <CommentButton :comment="comment" :showSendProcess="showSendProcess" :handler="userPostComment" />
                 </CommentSection>
 
