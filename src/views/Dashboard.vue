@@ -1,9 +1,13 @@
 <script setup>
-    import { onMounted, ref, watch } from 'vue';
+    import { onMounted, ref, watch, computed } from 'vue';
     import { useRouter } from 'vue-router';
     import { useAuthStore } from '../stores/authUser';
 
+    // Components
     import Message from '../components/Message/Message.vue';
+    import MessageMenu from '../components/Dashboard/MessageMenu.vue';
+    import AccountMenu from '../components/Dashboard/AccountMenu.vue';
+    import ProfileMenu from '../components/Dashboard/ProfileMenu.vue';
     import MessageDetail from '../components/Message/Detail.vue';
     import Updated from '../components/Information/Updated.vue';
     import HeaderProfile from '../components/Dashboard/Header.vue';
@@ -54,7 +58,7 @@
         name: ref(null)
     };
 
-    const userProfile = ref(false);
+    const loadProfile = ref(true);
     const loadMessage = ref(true);
     const updated = ref(false);
 
@@ -70,7 +74,7 @@
         const result = await graphql({ query: userMessagesQuery(parsed.id) });
         const { userMessages } = result.data;
 
-        if(userMessages.code === 200){
+        if(userMessages.status === 'OK'){
             messages.value = userMessages.messages;
             loadMessage.value = false;
 
@@ -82,12 +86,13 @@
     async function GetDashboardProfile(){
         const user = await FetchDashboardProfile();
 
-        userProfile.value = true;
+        loadProfile.value = false;
 
         dashboardProfile.bio.value = user.bio;
         dashboardProfile.avatar.value = user.avatar;
         dashboardProfile.username.value = user.username;
         dashboardProfile.fullname.value = user.fullname; 
+        dashboardProfile.verified.value = user.verified; 
 
         authUser.idHandler(parsed.id);
         authUser.usernameHandler(user.username);
@@ -95,6 +100,10 @@
 
         document.title = `${user.username} - OnlyMe`;
     };
+
+    const userID = computed(() => {
+        return authUser.id.split('-')[1];
+    })
 
     function messageViewHandler(){
         messageView.value = true;
@@ -144,11 +153,6 @@
         }, (err) => {
             alert("Failed copy ID");
         });
-    }
-
-    function logoutHandler(){
-        localStorage.removeItem('onl_auth');
-        router.push('/');
     }
 
     function avatarChange(e){
@@ -227,6 +231,11 @@
         }
     }
 
+    function logoutHandler(){
+        localStorage.removeItem('onl_auth');
+        router.push('/');
+    }
+
     onMounted(async () => {
         const authToken = localStorage.getItem('onl_auth');
 
@@ -257,16 +266,14 @@
             <Nav :logoutHandler="logoutHandler" />
 
             <section class="mobileL:px-[15px]">
-                <LoadingUserProfile v-if="!userProfile" />
-
-                <!-- Header User Profile -->
-                <HeaderProfile v-if="userProfile"
-                    :id="authUser.id"
+                <LoadingUserProfile v-if="loadProfile" />
+                <HeaderProfile v-else
+                    :id="userID"
                     :username="dashboardProfile.username.value"
                     :bio="dashboardProfile.bio.value"
                     :avatar="dashboardProfile.avatar.value"
                     :fullname="dashboardProfile.fullname.value"
-                    :verified="dashboardProfile.verified"
+                    :verified="dashboardProfile.verified.value"
                     :copy="copy"
                     :copyClickHandler="copyClickHandler"
                 />
@@ -275,35 +282,9 @@
 
             <!-- Buttons Navigation -->
             <div class="mt-[50px] mobileL:mt-[50px] mobileL:px-[15px] relative flex items-center border-b border-white/10 mobileL:sticky">
-                <div class="relative bottom-[-1px]">
-                    <div>
-                        <button v-if="messageView" class="py-[10px] px-[15px] text-sm rounded-t-lg bg-indigo-500 border-b border-indigo-500">
-                            <span class="rounded-full mobileL:text-[13px] font-semibold">
-                                <p class="inline mr-[5px] font-semibold">{{ messages !== null ? messages.length : 0 }}</p> 
-                                {{ messages.length > 1 ? "Messages" : "Message" }}
-                            </span>
-                            
-                        </button>
-
-                        <button v-else class="py-[10px] px-[15px] text-sm rounded-t-md hover:bg-white/10 border-b border-transparent hover:border-white" @click="messageViewHandler">
-                            <span v-if="messages !== null" class="rounded-full mobileL:text-[13px] font-semibold">
-                                <p class="inline mr-[5px] font-semibold">{{ messages.length }}</p>
-                                    {{ messages.length > 1 ? "Messages" : "Message" }}
-                                </span>
-                        </button>
-
-                    </div>
-                </div>
-
-                <div class="ml-[8px] relative bottom-[-1px]">
-                    <button v-if="profileView" class="py-[10px] px-[15px] text-sm font-semibold mobileL:text-[13px] rounded-t-lg bg-indigo-500 border-b border-indigo-500">Profile</button>
-                    <button v-else class="py-[10px] px-[15px] text-sm font-semibold mobileL:text-[13px] rounded-t-md hover:bg-white/10 border-b border-transparent hover:border-white" @click="profileViewHandler">Profile</button>
-                </div>
-
-                <div class="ml-[8px] relative bottom-[-1px]">
-                    <button v-if="accountView" class="py-[10px] px-[15px] text-sm font-semibold mobileL:text-[13px] rounded-t-lg bg-indigo-500 border-b border-indigo-500">Account</button>
-                    <button v-else class="py-[10px] px-[15px] text-sm font-semibold mobileL:text-[13px] rounded-t-md hover:bg-white/10 border-b border-transparent hover:border-white" @click="accountViewHandler">Account</button>
-                </div>
+                <MessageMenu :messages="messages" :messageView="messageView" :handler="messageViewHandler" />
+                <ProfileMenu :profileView="profileView" :handler="profileViewHandler" />
+                <AccountMenu :acccountView="accountView" :handler="accountViewHandler" />
             </div>
 
             <!-- Content Navigation -->
@@ -353,8 +334,6 @@
 
                 <!-- Account Section -->
                 <Account :accountView="accountView" :email_address="authUser.email_address" />
-                
-
             </section>
         </section>
     </main>
