@@ -5,15 +5,15 @@ const headers = {
     'Content-Type': 'application/json',
 };
 
-export default function graphql(data, callback){
+export default function graphql({ query }, callback){
     return axios({
         url: `${endpoint}/graphql`,
         method: "POST",
         headers,
         data: {
-            query: data.query
+            query: query
         }
     })
         .then(res => ({ status: res.status, data: res.data.data }))
-        .catch(err => console.error(err))
+        .catch(err => callback(true))
 }
