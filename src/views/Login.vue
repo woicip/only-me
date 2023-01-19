@@ -30,38 +30,37 @@
     const username = ref("");
     const password = ref("");
     const showPass = ref(false);
+    const loginProcess = ref(false);
     const loginFail = {
         show: ref(false),
         message: ref(null)
     };
-    const loginProcess = ref(false);
 
-    function usernameInput(value){
-        username.value = value;
-    }
+    function usernameInput(value){ username.value = value }
+    function passwordInput(value){ password.value = value }
+    function showPassHandler(){ showPass.value = !showPass.value }
 
-    function passwordInput(value){
-        password.value = value;
-    }
-
-    function showPassHandler(){
-        showPass.value = !showPass.value;
+    function FailLoginHandler({ loading, show, message }){
+        loginProcess.value = loading;
+        loginFail.show.value = show;
+        loginFail.message.value = message;
     }
 
     async function login(){
         loginProcess.value = true;
 
-        const login = await graphql({ query: loginQuery(username.value, password.value) });
-        const { data } = login;
-        
-        if(data.login.code === 200){
-            loginProcess.value = false;
-            if(loginFail.show.value) loginFail.show.value = false;
+        const { data: { login } } = await graphql({ query: loginQuery(username.value, password.value) }, error => {
+            if(error){
+                FailLoginHandler({ loading: false, show: true, message: "Can't process the request at this time." });
+            }
+        });
+
+        if(login.status === 'OK'){
+            FailLoginHandler({ loading: false, show: false, message: null });
             
-            localStorage.setItem("onl_auth", data.login.token);
+            localStorage.setItem("onl_auth", login.token);
 
-            const parsed = parseJWT(data.login.token);
-
+            const parsed = parseJWT(login.token);
             authUser.idHandler(parsed.id);
             authUser.usernameHandler(parsed.username);
             authUser.setLoggedIn(true);
@@ -69,10 +68,7 @@
             router.push('/dashboard');
 
         } else {
-            loginProcess.value = false;
-            loginFail.show.value = true;
-            loginFail.message.value = "User Not Found"
-            password.value = ""
+            FailLoginHandler({ loading: false, show: true, message: "User not found." });
         }
     }
 
@@ -96,7 +92,7 @@
 
 <template>
     <main class="w-full h-full flex flex-col items-center justify-center animate-fadeIn">
-        <section class="my-[300px] tablet:my-[280px] w-[25%] tablet:w-[85%] laptop:w-[40%]">
+        <section class="my-[300px] tablet:my-[280px] w-[400px] tablet:w-[85%] laptop:w-[40%]">
             <Logo />
 
             <section class="w-full mobileL:w-full">
