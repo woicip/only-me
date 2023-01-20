@@ -1,7 +1,9 @@
 <template>
     <div id="home" class="w-full tablet:w-screen tablet:px-[50px] mobileL:px-[20px] mt-[150px] mobileL:mt-[150px] mx-auto animate-fadeIn">
-        <h1 class="mt-[100px] text-8xl text-center tablet:text-[3xl] mobileL:text-[13vw] font-semibold leading-tight mobileL:leading-[60px]">Send Your Secret <br/> Anonymous Message</h1>
-        <p class="px-[150px] tablet:px-[100px] mobileL:px-[10px] mt-[40px] text-[16px] text-center mobileL:text-[14px] text-white/70">
+        <h1 class="mt-[100px] text-8xl text-center font-semibold leading-tight laptopM:text-7xl laptopM:leading-tight tabletL:text-6xl tabletL:leading-tight mobileL:text-left mobileL:text-[55px] mobileM:text-[3rem] mobileL:mt-[50px] mobileL:leading-tight">
+            Send Your Secret <br /> Anonymous Message
+        </h1>
+        <p class="px-[150px] mt-[30px] text-white/70 tabletL:px-[80px] tabletM:px-[70px] mobileL:text-left mobileL:px-0 text-[16px] text-center mobileL:text-[14px]">
             Send your anonymous message to your friend, someone you know or even stranger. <br/> Never let them know who sent the message.
         </p>
 

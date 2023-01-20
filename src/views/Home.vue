@@ -67,9 +67,9 @@
             <Home />
         
             <OffersContainer>
-                <section class="laptop:px-[50px] mobileL:px-[10px] tablet:w-full mx-auto">
-                    <h1 class="w-full text-2xl text-center font-bold mobileL:text-[18]">
-                        What <span class="font-bold text-indigo-500">OnlyMe</span> offers to you ?
+                <section>
+                    <h1 class="w-full text-2xl text-center font-bold">
+                        What <span class="font-bold text-indigo-500">OnlyMe</span> offers <br class="hidden mobileL:block"/> to you ?
                     </h1>
     
                     <OffersItemContainer>
@@ -81,7 +81,7 @@
             </OffersContainer>
 
             <AboutContainer>
-                <h1 class="text-3xl font-bold">About </h1>
+                <h1 class="text-3xl font-bold">About</h1>
                 <div class="w-[90px] h-[20px] bg-indigo-500 opacity-50 relative bottom-[15px] left-[20px] z-[-1] mobileL:w-[110px]"></div>
                 <p class="mt-[20px] text-[16px] text-white leading-relaxed">
                     OnlyMe is a simple Web Application which you can send secret anonymous message to anyone (as long as they have the user profile). 
