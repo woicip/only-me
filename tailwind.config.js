@@ -7,12 +7,15 @@ module.exports = {
   theme: {
     screens: {
       'laptopL': { 'max': '1440px'},
-      'laptopM': { 'max': '1336px'},
+      'laptopM': { 'max': '1366px'},
+      'laptopS': { 'max': '1280px' },
       'laptop': { 'max': '1024px'},
-      '900px': { 'max': '900px'},
-      'tablet': { 'max': '768px' },
-      '672px': { 'max': '672px' },
-      'mobileL': { 'max': '425px' }
+      'tabletL': { 'max': '820px' },
+      'tabletM': { 'max': '768px' },
+      'tabletS': { 'max': '640px' },
+      'mobileL': { 'max': '425px' },
+      'mobileM': { 'max': '375px' },
+      'mobileS': { 'max': '320px' },
     },
     extend: {
       gridTemplateColumns: {
