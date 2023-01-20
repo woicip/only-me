@@ -43,7 +43,7 @@
     function FailLoginHandler({ loading, show, message }){
         loginProcess.value = loading;
         loginFail.show.value = show;
-        loginFail.message.value = message;
+        loginFail.message = message;
     }
 
     async function login(){
@@ -51,7 +51,7 @@
 
         const { data: { login } } = await graphql({ query: loginQuery(username.value, password.value) }, error => {
             if(error){
-                FailLoginHandler({ loading: false, show: true, message: "Can't process the request at this time." });
+                FailLoginHandler({ loading: false, show: true, message: "We have technical issue going on." });
             }
         });
 
@@ -91,7 +91,7 @@
 </script>
 
 <template>
-    <main class="w-full h-full flex flex-col items-center justify-center animate-fadeIn">
+    <main class="w-full h-screen mobileL:h-full flex flex-col items-center justify-center animate-fadeIn">
         <section class="my-[300px] tablet:my-[280px] w-[400px] tablet:w-[85%] laptop:w-[40%]">
             <Logo />
 
@@ -100,7 +100,7 @@
                     Sign in to <span class="font-bold">OnlyMe</span>
                 </h1>
     
-                <div class="mt-[40px]">
+                <div class="mt-[15px]">
                     <FailNotification v-if="loginFail.show.value" :message="loginFail.message" />
     
                     <Username placeholder="John Smith" :value="username" :handler="usernameInput"  />

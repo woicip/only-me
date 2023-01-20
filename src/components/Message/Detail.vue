@@ -123,7 +123,6 @@
                 this.remove = !this.remove;
             },
             commentInputHandler(value){
-                console.log(value);
                 this.comment = value;
             },
             disappearRemoveWarning(){

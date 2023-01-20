@@ -3,12 +3,11 @@
         props: {
             email_address: String,
             password: String,
-            accountView: Boolean
         }
     }
 </script>
 <template>
-    <section v-if="accountView" class="animate-fadeIn mobileL:px-[15px]">
+    <section class="animate-fadeIn mobileL:px-[15px]">
         <div class="mt-[10px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">
             <div class="absolute py-[5px] px-[15px] rounded-full bg-yellow-600/80 z-10 text-xs right-4 top-4">Under Construction</div>
             <p class="text-[11px] text-white/30 font-light">Email Address</p>

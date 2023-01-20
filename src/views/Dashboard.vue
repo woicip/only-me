@@ -62,6 +62,8 @@
     const loadMessage = ref(true);
     const updated = ref(false);
 
+    const errorGetMessages = ref(false);
+
     const parsed = parseJWT(localStorage.getItem('onl_auth'));
 
     async function FetchDashboardProfile(){
@@ -79,7 +81,7 @@
             loadMessage.value = false;
 
         } else {
-            alert("Failed getting messages");
+            errorGetMessages(true);
         }
     };
 
@@ -259,7 +261,7 @@
 </script>
 
 <template>
-    <main>
+    <section>
         <Updated :updated="updated" :updatedHandler="updatedHandler" />
 
         <section class="w-[536px] mobileL:w-screen mx-auto py-[50px] mobileL:py-[15px] text-white">
@@ -293,7 +295,11 @@
                     <LoadingUserMessageDetail v-if="loadMessage" />
 
                     <div v-else>
-                        <div v-for="message in messages" :key="message.id">
+                        <div v-if="errorGetMessages" class="w-full mt-[30px] bg-white/5 rounded-xl py-[20px] px-[20px] flex items-center justify-center border border-white/10">
+                            <h1>Error while getting your messages :(</h1>
+                        </div>
+
+                        <div v-else v-for="message in messages" :key="message.id">
                             <MessageDetail
                                 :id="message.id"
                                 :user_id="authUser.id"
@@ -314,7 +320,7 @@
                 </section>
 
                 <!-- Profile Content View -->
-                <Profile
+                <Profile v-if="profileView"
                     :id="parsed.id"
                     :profileView="profileView" 
                     :userAvatar="dashboardProfile.avatar.value"
@@ -333,8 +339,8 @@
                 />
 
                 <!-- Account Section -->
-                <Account :accountView="accountView" :email_address="authUser.email_address" />
+                <Account v-if="accountView" :email_address="authUser.email_address" />
             </section>
         </section>
-    </main>
+    </section>
 </template>

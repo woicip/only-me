@@ -3,7 +3,6 @@
 
     const props = defineProps({
         id: String,
-        profileView: Boolean,
         userAvatar: String,
         avatarChange: Function,
         userFullname: String,
@@ -30,7 +29,7 @@
 
 </script>
 <template>
-    <section v-if="profileView">
+    <section>
         <div class="animate-fadeIn mobileL:px-[15px]">
 
             <div class="flex flex-col items-start mt-[20px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">

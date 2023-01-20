@@ -6,5 +6,5 @@
     }
 </script>
 <template>
-    <p class="text-red-500 font-semibold text-sm rounded-md transition-all">{{ message }}</p>
+    <p class="py-[10px] px-[10px] text-white text-sm font-medium rounded-md transition-all bg-orange-500/70">{{ message }}</p>
 </template>
