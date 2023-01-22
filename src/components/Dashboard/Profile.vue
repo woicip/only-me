@@ -1,30 +1,29 @@
 <script setup>
-    import { computed } from 'vue';
+    import { computed, ref } from 'vue';
+    import { useAuthStore } from '../../stores/authUser';
 
-    const props = defineProps({
-        id: String,
-        userAvatar: String,
-        avatarChange: Function,
-        userFullname: String,
-        fullname: String,
-        fullnameInput: Function,
-        updateFullname: Function,
-        userUsername: String,
-        username: String,
-        usernameInput: Function,
-        updateUsername: Function,
-        bio: String,
-        bioInput: Function,
-        updateBio: Function
-    });
+    const authUser = useAuthStore();
 
-    const fullnamePlaceholder = computed(() => {
-        return props.userFullname !== null ? props.userFullname : props.userUsername;
-    });
+    const tempData = {
+        username: ref(''),
+        fullname: ref(''),
+        bio: ref(''),
+    }
 
-    const completeID = computed(() => {
-        const splID = props.id.split('-')[1];
-        return `https://onlyme.up.railway.app/user/${splID}`;
+    function usernameHandler(e){
+        tempData.username.value = e.target.value;
+    }
+
+    function fullnameHandler(e){
+        tempData.fullname.value = e.target.value;
+    }
+
+    function bioHandler(e){
+        tempData.bio.value = e.target.value;
+    }
+
+    const userID = computed(() => {
+        return `https://onlyme.up.railway.app/user/${authUser.id}`;
     });
 
 </script>
@@ -37,13 +36,13 @@
                     <h1 class="text-[14px] font-medium ">Share Your Profile </h1>
                     <p class="text-xs text-white/30">Copy your URL below</p>
                 </div>
-                <div class="w-full mt-[10px] font-mono py-[7px] px-[10px] bg-black/20 rounded-md text-sm overflow-x-scroll">{{ completeID }}</div>
+                <div class="w-full mt-[10px] font-mono py-[7px] px-[10px] bg-black/20 rounded-md text-sm overflow-x-scroll">{{ userID }}</div>
             </div>
 
             <div class="flex items-center mt-[10px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">
                 <div class="absolute py-[5px] px-[15px] rounded-full bg-yellow-600/80 z-10 text-xs right-2 top-2">Under Construction</div>
-                <img v-if="userAvatar === null" src="https://www.theparentingplace.net/wp-content/uploads/2021/02/BlankImage.jpg" alt="current-avatar" class="w-[70px] rounded-md">
-                <img v-else :src="userAvatar" alt="current-avatar" class="w-[70px] rounded-md">
+                <img v-if="authUser.avatar === null" src="https://www.theparentingplace.net/wp-content/uploads/2021/02/BlankImage.jpg" alt="current-avatar" class="w-[70px] rounded-full">
+                <img v-else :src="authUser.avatar" alt="current-avatar" class="w-[70px] rounded-md">
 
                 <div class="ml-[20px]">
                     <h1 class="text-[13px] mb-[6px] font-semibold">Change Avatar</h1>
@@ -52,24 +51,24 @@
             </div>
 
             <div class="mt-[10px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">
-                <p class="text-[11px] text-white/30 font-light">Fullname</p>
-                <input :value="fullname" type="text" name="fullname" id="fullname" :placeholder="fullnamePlaceholder" class="w-full text-white text-sm bg-transparent focus:outline-none" @input="fullnameInput"/>
-                <button v-if="fullname.length > 3" class="absolute animate-fadeIn h-full flex flex-col justify-center px-[10px] text-[13px] text-white font-semibold right-0 top-0 bg-white/10 rounded-r-lg transition-all hover:bg-indigo-500" @click="updateFullname">Update</button>
+                <p class="text-[11px] text-white/50 font-light">Fullname</p>
+                <input :value="tempData.fullname.value" type="text" name="fullname" id="fullname" :placeholder="authUser.fullname" class="w-full text-white text-[15px] bg-transparent focus:outline-none" @input="fullnameHandler"/>
+                <button v-if="tempData.fullname.length > 3" class="absolute animate-fadeIn h-full flex flex-col justify-center px-[10px] text-[13px] text-white font-semibold right-0 top-0 bg-white/10 rounded-r-lg transition-all hover:bg-indigo-500" @click="updateFullname">Update</button>
             </div>
 
             <div class="mt-[10px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">
-                <p class="text-[11px] text-white/30 font-light">Username</p>
-                <input :value="username" type="text" name="username" id="username" :placeholder="userUsername" class="w-full text-white text-sm bg-transparent focus:outline-none" @input="usernameInput"/>
-                <button v-if="username.length > 3" class="absolute animate-fadeIn h-full flex flex-col justify-center px-[10px] text-[13px] text-white font-semibold right-0 top-0 bg-white/10 rounded-r-lg transition-all hover:bg-indigo-500" @click="updateUsername">Update</button>
+                <p class="text-[11px] text-white/50 font-light">Username</p>
+                <input :value="tempData.username.value" type="text" name="username" id="username" :placeholder="authUser.username" class="w-full text-white text-[15px] bg-transparent focus:outline-none" @input="usernameHandler"/>
+                <button v-if="tempData.username.length > 3" class="absolute animate-fadeIn h-full flex flex-col justify-center px-[10px] text-[13px] text-white font-semibold right-0 top-0 bg-white/10 rounded-r-lg transition-all hover:bg-indigo-500" @click="updateUsername">Update</button>
             </div>
 
             <div class="mt-[10px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">
-                <p class="text-[11px] text-white/30 font-light">Bio</p>
-                <textarea :value="bio" name="bio" id="bio" placeholder="Write your bio ..." class="w-full h-[150px] text-white bg-transparent focus:outline-none" @input="bioInput"/>
+                <p class="text-[11px] text-white/50 font-light">Bio</p>
+                <textarea :value="tempData.bio.value" name="bio" id="bio" placeholder="Write some thoughts ..." class="w-full h-[150px] text-white text-[15px] bg-transparent focus:outline-none" @input="bioHandler" />
             </div>
 
             <div>
-                <button v-if="bio.length" class="w-full animate-fadeIn mt-[10px] py-[15px] font-bold rounded-[8px] bg-indigo-500" @click="updateBio">Update Bio</button>
+                <button v-if="authUser.bio.length" class="w-full animate-fadeIn mt-[10px] py-[15px] font-bold rounded-[8px] bg-indigo-500" @click="updateBio">Update Bio</button>
             </div>
         </div>
     </section>

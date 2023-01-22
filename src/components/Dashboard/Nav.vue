@@ -1,8 +1,7 @@
-<script>
-    export default {
-        props: {
-            logoutHandler: Function
-        }
+<script setup>
+    function logoutHandler(){
+        localStorage.removeItem('onl_auth');
+        router.push('/');
     }
 </script>
 <template>

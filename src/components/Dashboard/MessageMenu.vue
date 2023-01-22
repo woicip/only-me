@@ -1,8 +1,10 @@
 <script setup>
     import { computed } from '@vue/reactivity';
+    import { useAuthStore } from '../../stores/authUser';
+
+    const authUser = useAuthStore();
 
     const props = defineProps({
-        messages: Array,
         messageView: Boolean,
         handler: Function
     });
@@ -12,11 +14,11 @@
     }
 
     const whetherMessages = computed(() => {
-        return props.messages.length > 1 ? "Messages" : "Message";
+        return authUser.messagesLength > 1 ? "Messages" : "Message";
     });
 
     const messagesAmount = computed(() => {
-        return props.messages !== null ? props.messages.length : 0;
+        return authUser.messagesLength !== null ? authUser.messagesLength : 0;
     })
 
 </script>
@@ -32,7 +34,7 @@
 
             <button v-else class="py-[10px] px-[15px] text-sm rounded-t-md hover:bg-white/10 border-b border-transparent hover:border-white" @click="messageViewHandler">
                 <span v-if="messages !== null" class="rounded-full mobileL:text-[13px] font-semibold">
-                    <p class="inline mr-[5px] font-semibold">{{ messages.length }}</p>
+                    <p class="inline mr-[5px] font-semibold">{{ authUser.messagesLength }}</p>
                         {{ whetherMessages }}
                     </span>
             </button>

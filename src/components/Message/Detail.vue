@@ -1,4 +1,5 @@
 <script>
+    import { computed } from '@vue/reactivity';
 
     // Components
     import DetailContainer from './Detail/Container.vue';
@@ -16,7 +17,6 @@
     import SenderMessageContainer from './Detail/SenderMessageContainer.vue';
     import CommentList from './Detail/Comment/CommentList.vue';
     import TopSenderMessage from './Detail/TopSenderMessage.vue';
-
 
     // graphql
     import graphql from '../../fetchs/graphql';
@@ -139,8 +139,13 @@
                 const borderRadius = 6;
                 const lineBreaks = value.split(/\n/).length - 1;
 
-                const newHeight = minHeight + lineBreaks * lineHeight + padding + borderRadius;
-                target.style.height = `${newHeight}px`;
+                console.log(lineBreaks);
+
+                if(lineBreaks < 5){
+                    const newHeight = minHeight + (lineBreaks * lineHeight) + padding + borderRadius;
+                    target.style.height = `${newHeight}px`;
+                }
+
             }
         }
     }

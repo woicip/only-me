@@ -57,13 +57,17 @@
                 <a href="#offers" class="inline-block w-full text-[16px] py-[10px] mobileL:px-[20px] tabletL:px-[50px] border-b border-white/10 hover:bg-white/5" @click="menuMobileHandler">Offers</a>
                 <a href="#about" class="inline-block w-full text-[16px] py-[10px] mobileL:px-[20px] tabletL:px-[50px] border-b border-white/10 hover:bg-white/5" @click="menuMobileHandler">About</a>
                 <a href="#faq" class="inline-block w-full text-[16px] py-[10px] mobileL:px-[20px] tabletL:px-[50px] border-b border-white/10 hover:bg-white/5" @click="menuMobileHandler">FAQ</a>
-                <a href="/login" class="w-full text-[16px] py-[10px] mobileL:px-[20px] tabletL:px-[50px] flex items-center border-b border-white/10 hover:bg-white/5" @click="menuMobileHandler">
+                <a v-if="!user.isLoggedIn" href="/login" class="w-full text-[16px] py-[10px] mobileL:px-[20px] tabletL:px-[50px] flex items-center border-b border-white/10 hover:bg-white/5" @click="menuMobileHandler">
                     <img :src="login" alt="login_icon" class="w-[18px] mr-[10px]" />
                     Sign In
                 </a>
-                <a href="/register" class="w-full text-[16px] py-[10px] mobileL:px-[20px] tabletL:px-[50px] flex items-center border-b border-white/10 hover:bg-white/5" @click="menuMobileHandler">
+                <a v-if="!user.isLoggedIn" href="/register" class="w-full text-[16px] py-[10px] mobileL:px-[20px] tabletL:px-[50px] flex items-center border-b border-white/10 hover:bg-white/5" @click="menuMobileHandler">
                     <img :src="register" alt="login_icon" class="w-[18px] mr-[10px]" />
                     Register
+                </a>
+                <a v-if="user.isLoggedIn" href="/register" class="w-full text-[16px] py-[10px] mobileL:px-[20px] tabletL:px-[50px] flex items-center border-b border-white/10 hover:bg-white/5" @click="menuMobileHandler">
+                    <img :src="register" alt="login_icon" class="w-[18px] mr-[10px]" />
+                    {{ user.username }}
                 </a>
             </div>
 

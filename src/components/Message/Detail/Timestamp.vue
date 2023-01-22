@@ -1,6 +1,6 @@
 <script setup>
     const props = defineProps({
-        dateTimestamp: Function,
+        dateTimestamp: String,
         commentLength: Number
     })
 </script>

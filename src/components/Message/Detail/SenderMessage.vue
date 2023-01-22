@@ -2,7 +2,7 @@
     const props = defineProps({
         sender: String,
         message: String,
-        hoursMinutes: Function
+        hoursMinutes: String
     })
 </script>
 <template>
@@ -13,6 +13,6 @@
             <p class="text-[12px] text-white/40">{{ props.hoursMinutes }}</p>
         </div>
 
-        <p v-bind:innerHTML="props.message" class="mt-[5px] text-[14px] mobileL:text-[14px] text-white/80"></p>
+        <p v-bind:innerHTML="props.message" class="mt-[5px] text-[15px] text-white/80"></p>
     </div>
 </template>

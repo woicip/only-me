@@ -14,6 +14,6 @@
     }
 </script>
 <template>
-    <textarea placeholder="Write your comment ..." class="bg-black/5 resize-none w-full min-h-[45px] text-white leading-[24px] p-[10px] px-[20px] focus:outline-none border border-white/10" @input="inputHandler" @keyup="textAreaGrowHandler">
+    <textarea :value="comment" placeholder="Write your comment ..." class="bg-black/5 resize-none w-full text-white leading-[24px] py-[10px] px-[20px] transition-all outline-none placeholder:text-white/30" @input="inputHandler" @keyup="textAreaGrowHandler">
     </textarea>
 </template>

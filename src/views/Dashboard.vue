@@ -1,14 +1,13 @@
 <script setup>
-    import { onMounted, ref, watch, computed } from 'vue';
+    import { onMounted, ref } from 'vue';
     import { useRouter } from 'vue-router';
     import { useAuthStore } from '../stores/authUser';
 
     // Components
-    import Message from '../components/Message/Message.vue';
+    import Messages from '../components/Dashboard/Messages.vue';
     import MessageMenu from '../components/Dashboard/MessageMenu.vue';
     import AccountMenu from '../components/Dashboard/AccountMenu.vue';
     import ProfileMenu from '../components/Dashboard/ProfileMenu.vue';
-    import MessageDetail from '../components/Message/Detail.vue';
     import Updated from '../components/Information/Updated.vue';
     import HeaderProfile from '../components/Dashboard/Header.vue';
     import Profile from '../components/Dashboard/Profile.vue';
@@ -17,13 +16,9 @@
     import parseJWT from '../functions/parseJWT';
     import parseURL from '../functions/parseURL';
     import parseNL from '../functions/parseNL';
-    import LoadingUserProfile from '../components/Loading/UserProfile.vue';
-    import LoadingUserMessageDetail from '../components/Loading/UserMessageDetail.vue';
 
     // graphql
     import graphql from '../fetchs/graphql';
-    import userMessagesQuery from '../../graphql/query/userMessages';
-    import userDashboardQuery from '../../graphql/query/userDashboard';
     import updateUserFullname from '../../graphql/mutation/updateFullname';
     import updateUsernameQuery from '../../graphql/mutation/updateUsername';
     import updateBioQuery from '../../graphql/mutation/updateBio';
@@ -36,76 +31,14 @@
     const profileView = ref(false);
     const accountView = ref(false);
 
-    const dashboardProfile = {
-        id: ref(""),
-        bio: ref(""),
-        avatar: ref(null),
-        username: ref(""),
-        fullname: ref(""),
-        verified: ref(false)
-    };
-
-    const messages = ref("");
-
     const bio = ref("");
     const username = ref("");
     const fullname = ref("");
     const comment = ref("");
-
     const author = ref(true);
-    const copy = {
-        show: ref(false),
-        name: ref(null)
-    };
-
-    const loadProfile = ref(true);
-    const loadMessage = ref(true);
     const updated = ref(false);
 
-    const errorGetMessages = ref(false);
-
     const parsed = parseJWT(localStorage.getItem('onl_auth'));
-
-    async function FetchDashboardProfile(){
-        const getUserDashboard = await graphql({ query: userDashboardQuery(parsed.id) });
-        const { user: { data } } = getUserDashboard.data;
-        return data;
-    }
-
-    async function GetUserMessages(){
-        const result = await graphql({ query: userMessagesQuery(parsed.id) });
-        const { userMessages } = result.data;
-
-        if(userMessages.status === 'OK'){
-            messages.value = userMessages.messages;
-            loadMessage.value = false;
-
-        } else {
-            errorGetMessages(true);
-        }
-    };
-
-    async function GetDashboardProfile(){
-        const user = await FetchDashboardProfile();
-
-        loadProfile.value = false;
-
-        dashboardProfile.bio.value = user.bio;
-        dashboardProfile.avatar.value = user.avatar;
-        dashboardProfile.username.value = user.username;
-        dashboardProfile.fullname.value = user.fullname; 
-        dashboardProfile.verified.value = user.verified; 
-
-        authUser.idHandler(parsed.id);
-        authUser.usernameHandler(user.username);
-        authUser.setLoggedIn(true);
-
-        document.title = `${user.username} - OnlyMe`;
-    };
-
-    const userID = computed(() => {
-        return authUser.id.split('-')[1];
-    })
 
     function messageViewHandler(){
         messageView.value = true;
@@ -139,22 +72,6 @@
 
     function updatedHandler(){
         updated.value = false;
-    }
-
-    function copyClickHandler(){
-        const rawID = authUser.id.split('-')[1];
-        const text = `${import.meta.env.VITE_APP_ADDRESS}/user/${rawID}`;
-        navigator.clipboard.writeText(text).then(() => {
-            copy.show.value = true;
-            copy.name.value = "Copied";
-
-            setTimeout(() => {
-                copy.show = false;
-            }, 3000);
-
-        }, (err) => {
-            alert("Failed copy ID");
-        });
     }
 
     function avatarChange(e){
@@ -195,7 +112,7 @@
 
         if(updateUsername.status === "OK"){
             const user = await FetchDashboardProfile();
-    
+
             updated.value = true;
             username.value = "";
             authUser.usernameHandler(user.username);
@@ -233,11 +150,6 @@
         }
     }
 
-    function logoutHandler(){
-        localStorage.removeItem('onl_auth');
-        router.push('/');
-    }
-
     onMounted(async () => {
         const authToken = localStorage.getItem('onl_auth');
 
@@ -253,9 +165,6 @@
             authUser.setLoggedIn(false);
             router.push('/');
         }
-
-        GetDashboardProfile();
-        GetUserMessages();
     });
 
 </script>
@@ -265,75 +174,32 @@
         <Updated :updated="updated" :updatedHandler="updatedHandler" />
 
         <section class="w-[536px] mobileL:w-screen mx-auto py-[50px] mobileL:py-[15px] text-white">
-            <Nav :logoutHandler="logoutHandler" />
+            <Nav />
 
             <section class="mobileL:px-[15px]">
-                <LoadingUserProfile v-if="loadProfile" />
-                <HeaderProfile v-else
-                    :id="userID"
-                    :username="dashboardProfile.username.value"
-                    :bio="dashboardProfile.bio.value"
-                    :avatar="dashboardProfile.avatar.value"
-                    :fullname="dashboardProfile.fullname.value"
-                    :verified="dashboardProfile.verified.value"
-                    :copy="copy"
-                    :copyClickHandler="copyClickHandler"
-                />
+                <HeaderProfile />
             </section>
 
 
             <!-- Buttons Navigation -->
             <div class="mt-[50px] mobileL:mt-[50px] mobileL:px-[15px] relative flex items-center border-b border-white/10 mobileL:sticky">
-                <MessageMenu :messages="messages" :messageView="messageView" :handler="messageViewHandler" />
+                <MessageMenu :messageView="messageView" :handler="messageViewHandler" />
                 <ProfileMenu :profileView="profileView" :handler="profileViewHandler" />
                 <AccountMenu :acccountView="accountView" :handler="accountViewHandler" />
             </div>
 
             <!-- Content Navigation -->
             <section class="mt-[20px]">
-                <section v-if="messageView" class="animate-fadeIn mobileL:px-[15px]">
-                    <LoadingUserMessageDetail v-if="loadMessage" />
-
-                    <div v-else>
-                        <div v-if="errorGetMessages" class="w-full mt-[30px] bg-white/5 rounded-xl py-[20px] px-[20px] flex items-center justify-center border border-white/10">
-                            <h1>Error while getting your messages :(</h1>
-                        </div>
-
-                        <div v-else v-for="message in messages" :key="message.id">
-                            <MessageDetail
-                                :id="message.id"
-                                :user_id="authUser.id"
-                                :sender="message.sender"
-                                :message="message.message"
-                                :comments="message.comments"
-                                :postedAt="message.postedAt"
-                                :author="author"
-                                :GetUserMessages="GetUserMessages"
-                                dashboard
-                            />
-                        </div>
-
-                        <div v-if="!messages.length">
-                            <h1 class="w-full py-[100px] text-center text-white/50">Messages will appear here if someone send you a message</h1>
-                        </div>
-                    </div>
-                </section>
+                <Messages v-if="messageView" />
 
                 <!-- Profile Content View -->
                 <Profile v-if="profileView"
                     :id="parsed.id"
-                    :profileView="profileView" 
-                    :userAvatar="dashboardProfile.avatar.value"
                     :avatarChange="avatarChange"
-                    :userFullname="dashboardProfile.fullname.value"
-                    :fullname="fullname"
                     :fullnameInput="fullnameInput"
                     :updateFullname="updateFullname"
-                    :userUsername="dashboardProfile.username.value"
-                    :username="username"
                     :usernameInput="usernameInput"
                     :updateUsername="updateUsername"
-                    :bio="bio"
                     :bioInput="bioInput"
                     :updateBio="updateBio"
                 />

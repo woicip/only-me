@@ -1,5 +1,5 @@
 <template>
-    <footer class="900px:w-[900px] tablet:w-screen mx-auto h-full flex items-center justify-center mt-[200px] py-[40px] bg-[#2f323a] laptop:px-[50px] mobileL:px-[25px] mobileL:py-[25px]">
+    <footer class="px-[200px] laptopS:px-[100px] tablet:w-screen mx-auto h-full flex items-center justify-center mt-[200px] py-[40px] bg-[#2f323a] laptop:px-[50px] mobileL:px-[25px] mobileL:py-[25px]">
         <section class="w-full h-full mx-auto flex mobileL:flex-col items-start justify-between">
             
             <div class="w-full h-full flex flex-col justify-between">
