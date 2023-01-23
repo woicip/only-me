@@ -71,7 +71,7 @@
                 </a>
             </div>
 
-            <p class="my-[20px] mobileL:px-[20px] tabletL:px-[50px] text-[12px] text-white/30">Copyright OnlyMe 2023</p>
+            <p class="my-[20px] mobileL:px-[20px] tabletL:px-[50px] text-[12px] text-white/30">© Copyright OnlyMe 2023</p>
         </section>
     </section>
 </template>
