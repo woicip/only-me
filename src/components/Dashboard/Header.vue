@@ -39,6 +39,7 @@
         authUser.idHandler(userID);
         authUser.usernameHandler(data.username);
         authUser.fullnameHandler(data.fullname);
+        authUser.verifiedHandler(data.verified);
         authUser.avatarHandler(data.avatar);
         authUser.bioHandler(data.bio);
 
@@ -69,6 +70,6 @@
             </div>
         </div>
 
-        <p v-if="authUser.bio !== null" v-bind:innerHTML="authUser.bio" class="mt-[30px] mobileL:mt-[30px] text-white text-[14px]x mobileL:text-[13px]"></p>
+        <div v-if="authUser.bio !== null" v-bind:innerHTML="authUser.bio" class="mt-[30px] mobileL:mt-[30px] text-white text-[14px]x mobileL:text-[13px]"></div>
     </section>
 </template>
