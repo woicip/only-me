@@ -92,7 +92,7 @@
 
 <template>
     <main class="w-full h-screen mobileL:h-full flex flex-col items-center justify-center animate-fadeIn">
-        <section class="my-[300px] tablet:my-[280px] w-[400px] tablet:w-[85%] laptop:w-[40%] mobileL:px-[20px] mobileL:my-[200px] mobileL:w-full">
+        <section class="my-[300px] tablet:my-[280px] w-[400px] tabletL:w-full tabletL:px-[60px] laptop:w-[40%] mobileL:px-[20px] mobileL:my-[200px] mobileL:w-full">
             <Logo />
 
             <section class="w-full mobileL:w-full">
