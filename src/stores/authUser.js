@@ -7,6 +7,7 @@ export const useAuthStore = defineStore('auth', () => {
     const fullname = ref(null);
     const avatar = ref(null);
     const bio = ref(null);
+    const verified = ref(null);
     const messagesLength = ref(null);
     const isLoggedIn = ref(false);
 
@@ -26,7 +27,21 @@ export const useAuthStore = defineStore('auth', () => {
         avatar.value = value;
     }
 
+    function verifiedHandler(value){
+        verified.value = value;
+    }
+
     function bioHandler(value){
+        const regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g
+        const URLs = value.match(regex);
+        const breakpoints = value.split('\n');
+        
+        value = breakpoints.join(' <br/> ');
+        
+        URLs.forEach(url => {
+            value = value.replace(`${url}`, `<a href="${url}" target="_blank" rel="noreferrer" class="text-blue-400 font-medium hover:underline">${url}</a>`);
+        });
+
         bio.value = value;
     }
 
@@ -38,5 +53,5 @@ export const useAuthStore = defineStore('auth', () => {
         isLoggedIn.value = value;
     }
 
-    return { id, username, fullname, avatar, bio, messagesLength, isLoggedIn, idHandler, usernameHandler, fullnameHandler, avatarHandler, bioHandler, messagesLengthHandler, setLoggedIn };
+    return { id, username, fullname, avatar, bio, verified, messagesLength, isLoggedIn, idHandler, usernameHandler, fullnameHandler, avatarHandler, bioHandler, verifiedHandler, messagesLengthHandler, setLoggedIn };
 });
