@@ -33,10 +33,10 @@
             </button>
 
             <button v-else class="py-[10px] px-[15px] text-sm rounded-t-md hover:bg-white/10 border-b border-transparent hover:border-white" @click="messageViewHandler">
-                <span v-if="messages !== null" class="rounded-full mobileL:text-[13px] font-semibold">
+                <span class="rounded-full mobileL:text-[13px] font-semibold">
                     <p class="inline mr-[5px] font-semibold">{{ authUser.messagesLength }}</p>
-                        {{ whetherMessages }}
-                    </span>
+                    {{ whetherMessages }}
+                </span>
             </button>
 
         </div>
