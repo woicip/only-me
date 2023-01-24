@@ -52,7 +52,6 @@
                     :message="message.message"
                     :comments="message.comments"
                     :postedAt="message.postedAt"
-                    :author="author"
                     :GetUserMessages="GetUserMessages"
                     dashboard
                 />
