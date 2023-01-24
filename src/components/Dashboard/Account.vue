@@ -1,23 +1,14 @@
-<script>
-    export default {
-        props: {
-            email_address: String,
-            password: String,
-        }
-    }
+<script setup>
+    import Item from './Account/Item.vue';
 </script>
 <template>
-    <section class="animate-fadeIn mobileL:px-[15px]">
-        <div class="mt-[10px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">
-            <div class="absolute py-[5px] px-[15px] rounded-full bg-yellow-600/80 z-10 text-xs right-4 top-4">Under Construction</div>
-            <p class="text-[11px] text-white/30 font-light">Email Address</p>
-            <input :value="email_address" type="text" name="fullname" id="fullname" :placeholder="email_address" class="w-full text-white bg-transparent focus:outline-none" @input="email_address"/>
-        </div>
+    <section class="animate-fadeIn mobileL:px-[15px] bg-white/10 py-[20px] rounded-lg">
+        <h1 class="text-[18px] px-[20px]">Account Center</h1>
 
-        <div class="mt-[10px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">
-            <div class="absolute py-[5px] px-[15px] rounded-full bg-yellow-600/80 z-10 text-xs right-4 top-4">Under Construction</div>
-            <p class="text-[11px] text-white/30 font-light">New Password</p>
-            <input :value="email_address" type="password" name="fullname" id="fullname" :placeholder="password" class="w-full text-white bg-transparent focus:outline-none" @input="password"/>
+        <div class="mt-[20px] border-t border-white/10">
+            <Item name="Credential" desc="Email address, password" />
+            <Item name="Get Verified" desc="Wanna get verified ?" />
+            <Item name="Delete Account" desc="You'll lose your account" />
         </div>
     </section>
 </template>
