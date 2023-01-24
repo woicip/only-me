@@ -70,6 +70,6 @@
             </div>
         </div>
 
-        <div v-if="authUser.bio !== null" v-bind:innerHTML="authUser.bio" class="mt-[30px] mobileL:mt-[30px] text-white text-[14px]x mobileL:text-[13px]"></div>
+        <div v-if="authUser.bio !== null" v-bind:innerHTML="authUser.bio" class="mt-[30px] mobileL:mt-[30px] text-white text-[14px] mobileL:text-[13px]"></div>
     </section>
 </template>
