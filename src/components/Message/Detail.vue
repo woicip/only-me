@@ -22,6 +22,7 @@
     import graphql from '../../fetchs/graphql';
     import sendCommentQuery from '../../../graphql/mutation/sendComment';
     import deleteMessage from '../../../graphql/mutation/deleteMessage';
+import { useAuthStore } from '../../stores/authUser';
 
     export default {
         components: {
@@ -49,10 +50,13 @@
             message: String,
             comments: Array,
             postedAt: String,
-            author: Boolean,
             toggleDetail: Function,
             GetUserMessages: Function,
             dashboard: Boolean
+        },
+        setup(){
+            const authUser = useAuthStore()
+            return { authUser };
         },
         data(){
             return {
@@ -85,7 +89,7 @@
 
                 const data = {
                     message_id: this.id,
-                    author: this.author ? true : false,
+                    author: this.authUser.isLoggedIn ? true : false,
                     message: this.comment
                 }
 
@@ -165,7 +169,7 @@
                         <CloseButton v-else :handler="toggleDetail" />
                     </div>
                 </TopSenderMessage>
-                <Timestamp :dateTimestamp="dateTimestamp" :commentLength="comments.length" />
+                <Timestamp :dateTimestamp="dateTimestamp" :hoursMinutes="hoursMinutes" />
             </SenderMessageContainer>
     
             <CommentContainer>
@@ -173,7 +177,11 @@
                     <CommentBox :comment="comment" :commentInputHandler="commentInputHandler" :textareaGrow="textareaGrow" />
                     <CommentButton :comment="comment" :showSendProcess="showSendProcess" :handler="userPostComment" />
                 </CommentSection>
-
+                
+                <h1 class="w-full px-[20px] py-[12px] flex items-center font-semibold border-b border-white/10">
+                    {{ comments.length }}
+                    <p class="ml-[5px] text-[13px]">{{ comments.length > 1 ? 'Comments' : 'Comment' }}</p>
+                </h1>
                 <CommentList :comments="comments" />
             </CommentContainer>
         </Wrapper>
