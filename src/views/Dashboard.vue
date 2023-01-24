@@ -185,7 +185,7 @@
             <div class="mt-[50px] mobileL:mt-[50px] mobileL:px-[15px] relative flex items-center border-b border-white/10 mobileL:sticky">
                 <MessageMenu :messageView="messageView" :handler="messageViewHandler" />
                 <ProfileMenu :profileView="profileView" :handler="profileViewHandler" />
-                <AccountMenu :acccountView="accountView" :handler="accountViewHandler" />
+                <AccountMenu :accountView="accountView" :handler="accountViewHandler" />
             </div>
 
             <!-- Content Navigation -->
@@ -205,7 +205,7 @@
                 />
 
                 <!-- Account Section -->
-                <Account v-if="accountView" :email_address="authUser.email_address" />
+                <Account v-if="accountView"  />
             </section>
         </section>
     </section>
