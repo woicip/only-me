@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 export const useAuthStore = defineStore('auth', () => {
     const id = ref(null);
+    const email = ref(null);
     const username = ref(null);
     const fullname = ref(null);
     const avatar = ref(null);
@@ -17,6 +18,10 @@ export const useAuthStore = defineStore('auth', () => {
 
     function usernameHandler(value){
         username.value = value;
+    }
+
+    function emailHandler(value){
+        email.value = value;
     }
 
     function fullnameHandler(value){
@@ -53,5 +58,5 @@ export const useAuthStore = defineStore('auth', () => {
         isLoggedIn.value = value;
     }
 
-    return { id, username, fullname, avatar, bio, verified, messagesLength, isLoggedIn, idHandler, usernameHandler, fullnameHandler, avatarHandler, bioHandler, verifiedHandler, messagesLengthHandler, setLoggedIn };
+    return { id, username, email, fullname, avatar, bio, verified, messagesLength, isLoggedIn, idHandler, usernameHandler, emailHandler, fullnameHandler, avatarHandler, bioHandler, verifiedHandler, messagesLengthHandler, setLoggedIn };
 });
