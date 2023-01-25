@@ -78,31 +78,26 @@
 
     async function updateUsername(){
         username.loading.value = true;
+        username.alreadyExist.value = false;
 
-        await checkUsername(async ({ alreadyExist }) => {
-            if(!alreadyExist){
-                username.alreadyExist.value = false;
+        const token = localStorage.getItem('onl_auth');
+        const cutSpace = tempData.username.value.split(' ').join('');
 
-                const token = localStorage.getItem('onl_auth');
-                const cutSpace = tempData.username.value.split(' ').join('');
-                
-                const res = await graphql({ query: updateUsernameQuery(token, cutSpace) });
-                const { updateUsername } = res.data;
-        
-                if(updateUsername.status === 'OK'){
-                    username.loading.value = false;
-                    tempData.username.value = "";
-                    authUser.usernameHandler(cutSpace);
-        
-                } else {
-                    alert("Failed update username");
-                }
+        const res = await graphql({ query: updateUsernameQuery(token, cutSpace) });
+        const { updateUsername } = res.data;
 
-            } else {
-                username.loading.value = false;
-                username.alreadyExist.value = true;
-            }
-        })
+        if(updateUsername.status === 'OK'){
+            username.loading.value = false;
+            tempData.username.value = "";
+            authUser.usernameHandler(cutSpace);
+
+        } else if(updateUsername.status === 'CONFLICT') {
+            username.loading.value = false;
+            username.alreadyExist.value = true;
+
+        } else {
+            alert("Failed to update username!");
+        }
 
     }
 
@@ -201,12 +196,12 @@
                 <div class="w-full mt-[10px] font-mono py-[7px] px-[10px] bg-black/10 rounded-md text-sm overflow-x-scroll">{{ userID }}</div>
             </section>
 
-            <section class="flex flex-col justify-between mt-[10px] py-[20px] px-[20px] bg-white/5 rounded-[8px] border border-white/5 relative">
-                <div class="mb-[20px]">
-                    <h1 class="text-[18px] font-medium">Customize Profile</h1>
+            <section class="flex flex-col justify-between mt-[10px] py-[20px] bg-white/5 rounded-[8px] border border-white/5 relative">
+                <div class="mb-[20px] pb-[20px] border-b border-white/10">
+                    <h1 class="text-[18px] px-[20px] font-medium">Customize Profile</h1>
                 </div>
 
-                <div class="flex items-start justify-between">
+                <div class="mt-[5px] px-[20px] flex items-start justify-between">
                     <div class="flex items-center relative">
                         <div class="flex flex-col items-center">
                             <div class="h-full rounded-full overflow-hidden relative group transition-all hover:ring-2 hover:ring-offset-4 hover:ring-indigo-500 hover:ring-offset-[#41444D]">
@@ -242,7 +237,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col items-end">
+                    <div class="px-[20px] flex flex-col items-end">
                         <h1 class="text-[15px] font-medium flex items-center">
                             <img src="https://img.icons8.com/color/48/000000/verified-badge.png" class="w-[20px] mr-[5px]" />
                             Verified
@@ -252,7 +247,7 @@
                     </div>
                 </div>
 
-                <div class="mt-[30px] flex flex-col">
+                <div class="px-[20px] mt-[30px] flex flex-col">
                     <div class="w-full flex flex-col items-start">
                         <label for="fullname" class="text-[14px] flex items-center">
                             Full Name
@@ -273,7 +268,7 @@
                             <p class="ml-[5px] text-[11px] text-white/50">({{ username.length }})</p>
                         </label>
                         <div class="w-full relative">
-                            <input :value="tempData.username.value" type="text" name="username" id="username" :placeholder="authUser.username" class="w-full py-[10px] bg-transparent border-b border-white/20 outline-none transition-all focus:border-white/80" @input="usernameHandler" />
+                            <input :value="tempData.username.value" type="text" name="username" id="username" :placeholder="authUser.username" class="w-full py-[10px] bg-transparent border-b border-white/20 outline-none transition-all focus:border-white/80" :class="{ 'focus:border-red-400': username.alreadyExist.value, 'border-red-400': username.alreadyExist.value }" @input="usernameHandler" />
                             <p v-if="username.alreadyExist.value" class="text-red-400 mt-[5px] text-[13px]">Username is already exist.</p>
                             <button v-if="tempData.username.value.length > 4 && tempData.username.value.length < 31" class="py-[10px] px-[10px] absolute right-0 top-0 animate-fadeIn transition-all" @click="updateUsername">
                                 <LoadingProfile v-if="username.loading.value" />
