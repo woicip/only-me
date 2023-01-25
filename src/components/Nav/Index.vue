@@ -1,6 +1,9 @@
 <script setup>
     import { useAuthStore } from '../../stores/authUser';
-    import { defineProps, ref } from 'vue';
+    import { defineProps, ref, onMounted } from 'vue';
+    import parseJWT from '../../functions/parseJWT';
+    import graphql from '../../fetchs/graphql';
+    import getAvatarQuery from '../../../graphql/query/getAvatar';
 
     // Assets
     import menu from '../../assets/icons/menu-onlyme.svg';
@@ -12,13 +15,41 @@
         toggleMenuMobile: Function
     });
 
+    const user = useAuthStore();
     const menuMobile = ref(false);
 
     function menuMobileHandler(){
         menuMobile.value = !menuMobile.value;
     }
 
-    const user = useAuthStore();
+    async function getAvatar(){
+        const token = localStorage.getItem('onl_auth');
+        const parsed = parseJWT(token);
+
+        const res = await graphql({ query: getAvatarQuery(parsed.id.split('-')[1]) });
+
+        const { 
+            data: { 
+                user: { 
+                    status, 
+                    data: { 
+                        username,
+                        avatar 
+                    } 
+                }  
+            } 
+        } = res;
+
+        if(status === 'OK'){
+            user.usernameHandler(username);
+            user.avatarHandler(avatar);
+        }
+    }
+
+    onMounted(async () => {
+        await getAvatar();
+    })
+
 </script>
 
 <template>
