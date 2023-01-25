@@ -1,13 +1,15 @@
 <script setup>
     const props = defineProps({
         name: String,
-        desc: String
+        desc: String,
+        image: String,
+        handler: Function
     })
 </script>
 <template>
-    <button class="w-full flex items-center justify-between text-left py-[15px] px-[20px] border-b border-white/10 hover:bg-white/5 group">
+    <button class="w-full flex items-center justify-between text-left py-[13px] px-[20px] border-b border-white/5 hover:bg-white/5 group cursor-pointer" @click="props.handler">
         <div class="flex items-center">
-            <div class="w-[20px] h-[20px] bg-white/30 rounded-full"></div>
+            <img :src="props.image" alt="name" class="w-[25px]">
             <div class="ml-[20px]">
                 <h1 class="text-[16px]">{{ props.name }}</h1>
                 <p class="text-white/50 text-[13px]">{{ props.desc }}</p>
