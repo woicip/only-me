@@ -5,6 +5,7 @@ export default function userDashboard(id){
             data {
                 bio
                 avatar
+                email
                 username
                 fullname
                 verified
