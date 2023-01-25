@@ -37,6 +37,7 @@
 
         authUser.setLoggedIn(true);
         authUser.idHandler(userID);
+        authUser.emailHandler(data.email);
         authUser.usernameHandler(data.username);
         authUser.fullnameHandler(data.fullname);
         authUser.verifiedHandler(data.verified);
