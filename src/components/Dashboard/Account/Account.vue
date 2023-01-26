@@ -1,6 +1,38 @@
 <script setup>
+    import { ref } from 'vue';
     import { useAuthStore } from '../../../stores/authUser';
     const authUser = useAuthStore();
+
+    const showChangePassword = ref(false);
+
+    const newPassword = {
+        visible: ref(false),
+        password: ref('')
+    }
+    const currentPassword = {
+        visible: ref(false),
+        password: ref('')
+    }
+
+    function changePasswordHandler(){
+        showChangePassword.value = !showChangePassword.value;
+    }
+
+    function newPasswordHandler(e){
+        newPassword.password.value = e.target.value;
+    }
+
+    function currentPasswordHandler(e){
+        currentPassword.password.value = e.target.value;
+    }
+
+    function showNewPasswordHandler(){
+        newPassword.visible.value = !newPassword.visible.value;
+    }
+
+    function showCurrPasswordHandler(){
+        currentPassword.visible.value = !currentPassword.visible.value;
+    }
 
 </script>
 <template>
@@ -25,7 +57,48 @@
 
         <div>
             <h1 class="mt-[30px] text-[15px] font-medium">Password</h1>
-            <button class="py-[5px] px-[10px] text-[13px] mt-[15px] font-medium rounded-[5px] text-white/60 border border-white/10 transition-all hover:border-indigo-500 hover:text-white hover:bg-indigo-500">Change Password</button>
+            <div v-if="showChangePassword" class="w-full mt-[5px] animate-fadeIn">
+
+                <div>
+                    <div v-if="newPassword.visible.value" class="flex items-center relative">
+                        <input :value="newPassword.password.value" type="text" placeholder="Set new password" class="w-full py-[12px] bg-transparent border-b border-white/10 outline-none focus:border-white transition-all animate-fadeIn" @input="newPasswordHandler">
+                        <button v-if="newPassword.password.value.length" class="py-[10px] px-[10px] absolute right-0 cursor-pointer group animate-fadeIn outline-none" @click="showNewPasswordHandler">
+                            <img src="../../../assets/interface-edit-view-off-interface-white.svg" alt="eye-on-icon" class="w-[22px] opacity-50 group-hover:opacity-100 group-focus:opacity-100 transition-all">
+                        </button>
+                    </div>
+                    
+                    <div v-else class="flex items-center relative">
+                        <input :value="newPassword.password.value" type="password" placeholder="Set new password" class="w-full py-[12px] bg-transparent border-b border-white/10 outline-none focus:border-white transition-all animate-fadeIn" @input="newPasswordHandler">
+                        <button v-if="newPassword.password.value.length" class="py-[10px] px-[10px] absolute right-0 cursor-pointer group animate-fadeIn outline-none" @click="showNewPasswordHandler">
+                            <img src="../../../assets/interface-edit-view-interface-white.svg" alt="eye-on-icon" class="w-[22px] opacity-50 group-hover:opacity-100 group-focus:opacity-100 transition-all">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-[5px]">
+                    <div v-if="currentPassword.visible.value" class="flex items-center relative">
+                        <input :value="currentPassword.password.value" type="text" placeholder="Current password" class="w-full py-[12px] bg-transparent border-b border-white/10 outline-none focus:border-white transition-all animate-fadeIn" @input="currentPasswordHandler">
+                        <button v-if="currentPassword.password.value.length" class="py-[10px] px-[10px] absolute right-0 cursor-pointer group animate-fadeIn outline-none" @click="showCurrPasswordHandler">
+                            <img src="../../../assets/interface-edit-view-off-interface-white.svg" alt="eye-on-icon" class="w-[22px] opacity-50 group-hover:opacity-100 group-focus:opacity-100 transition-all">
+                        </button>
+                    </div>
+                    
+                    <div v-else class="flex items-center relative">
+                        <input :value="currentPassword.password.value" type="password" placeholder="Current password" class="w-full py-[12px] bg-transparent border-b border-white/10 outline-none focus:border-white transition-all animate-fadeIn" @input="currentPasswordHandler">
+                        <button v-if="currentPassword.password.value.length" class="py-[10px] px-[10px] absolute right-0 cursor-pointer group animate-fadeIn outline-none" @click="showCurrPasswordHandler">
+                            <img src="../../../assets/interface-edit-view-interface-white.svg" alt="eye-on-icon" class="w-[22px] opacity-50 group-hover:opacity-100 group-focus:opacity-100 transition-all">
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div v-if="showChangePassword">
+                <button v-if="newPassword.password.value.length && currentPassword.password.value.length" class="w-full py-[10px] px-[15px] text-[14px] mt-[15px] font-medium rounded-[5px] text-white transition-all bg-indigo-500 animate-fadeIn">Save Changes</button>
+                <button v-else disabled class="opacity-50 w-full py-[10px] px-[15px] text-[14px] mt-[15px] font-medium rounded-[5px] text-white transition-all bg-indigo-500 cursor-not-allowed">Save Changes</button>
+            </div>
+            
+            <button v-if="!showChangePassword" class="py-[5px] px-[10px] text-[13px] mt-[15px] font-medium rounded-[5px] text-white/60 border border-white/10 transition-all hover:border-indigo-500 hover:text-white hover:bg-indigo-500" @click="changePasswordHandler">Change Password</button>
         </div>
     </div>
 </template>
