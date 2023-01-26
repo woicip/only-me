@@ -85,7 +85,7 @@
         <DeleteAccount v-if="open.deleteAccount.value" />
     </section>
 
-    <button class="w-full mt-[20px] animate-fadeIn mobileL:px-[15px] bg-white/5 border border-red-400/30 py-[10px] bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg" @click="logoutHandler">
+    <button v-if="!open.credential.value && !open.getVerified.value && !open.deleteAccount.value" class="w-full mt-[20px] animate-fadeIn mobileL:px-[15px] bg-white/5 border border-red-400/30 py-[10px] bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg" @click="logoutHandler">
         Logout
     </button>
 </template>
