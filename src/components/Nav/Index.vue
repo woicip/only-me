@@ -24,25 +24,28 @@
 
     async function getAvatar(){
         const token = localStorage.getItem('onl_auth');
-        const parsed = parseJWT(token);
 
-        const res = await graphql({ query: getAvatarQuery(parsed.id.split('-')[1]) });
-
-        const { 
-            data: { 
-                user: { 
-                    status, 
-                    data: { 
-                        username,
-                        avatar 
-                    } 
-                }  
-            } 
-        } = res;
-
-        if(status === 'OK'){
-            user.usernameHandler(username);
-            user.avatarHandler(avatar);
+        if(token !== null){
+            const parsed = parseJWT(token);
+    
+            const res = await graphql({ query: getAvatarQuery(parsed.id.split('-')[1]) });
+    
+            const {
+                data: {
+                    user: { 
+                        status, 
+                        data: { 
+                            username,
+                            avatar 
+                        } 
+                    }  
+                } 
+            } = res;
+    
+            if(status === 'OK'){
+                user.usernameHandler(username);
+                user.avatarHandler(avatar);
+            }
         }
     }
 
