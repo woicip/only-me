@@ -11,7 +11,7 @@
         <div class="flex items-center">
             <img :src="props.image" alt="name" class="w-[25px]">
             <div class="ml-[20px]">
-                <h1 class="text-[16px]">{{ props.name }}</h1>
+                <h1 class="text-[16px] mobileL:text-[15px]">{{ props.name }}</h1>
                 <p class="text-white/50 text-[13px]">{{ props.desc }}</p>
             </div>
         </div>
