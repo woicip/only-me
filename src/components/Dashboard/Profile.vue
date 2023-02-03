@@ -186,7 +186,7 @@
 </script>
 <template>
     <section>
-        <div class="animate-fadeIn mobileL:px-[15px]">
+        <div class="animate-fadeIn mobileL:px-[15px] tabletL:px-[30px] tabletM:px-[20px]">
 
             <section class="flex flex-col items-start mt-[20px] py-[10px] px-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">
                 <div class="w-full flex items-center justify-between">
@@ -196,13 +196,13 @@
                 <div class="w-full mt-[10px] font-mono py-[7px] px-[10px] bg-black/10 rounded-md text-sm overflow-x-scroll">{{ userID }}</div>
             </section>
 
-            <section class="flex flex-col justify-between mt-[10px] py-[20px] bg-white/5 rounded-[8px] border border-white/5 relative">
-                <div class="mb-[20px] pb-[20px] border-b border-white/10">
+            <section class="flex flex-col justify-between mt-[10px] py-[20px] mobileL:py-[15px] bg-white/5 rounded-[8px] border border-white/5 relative">
+                <div class="mb-[20px] pb-[20px] mobileL:pb-[15px] border-b border-white/10">
                     <h1 class="text-[18px] px-[20px] font-medium">Customize Profile</h1>
                 </div>
 
-                <div class="mt-[5px] px-[20px] flex items-start justify-between">
-                    <div class="flex items-center relative">
+                <div class="mt-[5px] px-[15px] flex items-start justify-between">
+                    <div class="flex items-center tabletL:flex-col tabletL:items-start relative">
                         <div class="flex flex-col items-center">
                             <div class="h-full rounded-full overflow-hidden relative group transition-all hover:ring-2 hover:ring-offset-4 hover:ring-indigo-500 hover:ring-offset-[#41444D]">
                                 <button class="group-hover:block hidden bg-black/80 text-white absolute w-[90px] h-[90px] z-20 transition-all rounded-full animate-fadeIn cursor-pointer">
@@ -224,7 +224,7 @@
                             <p class="mt-[10px] text-[12px] text-white/70">Change Avatar</p>
                         </div>
         
-                        <div class="ml-[20px]">
+                        <div class="ml-[20px] tabletL:ml-0 tabletL:mt-[20px]">
                             <h1 v-if="authUser.avatar === null && !avatar.loading.value && !tempData.avatar.value" class="font-medium text-white/70 text-[15px]">You still don't have avatar yet. <br/> Upload your avatar!</h1>
 
                             <div v-else v-if="tempData.avatar.value !== null">
@@ -232,12 +232,12 @@
                                     <LoadingProfile v-if="avatar.loading.value" />
                                     <p v-else>Save Changes</p>
                                 </button>
-                                <p class="mt-[5px] text-[13px] text-white/50 animate-fadeIn">You haven't save the changes yet.</p>
+                                <p class="mt-[5px] text-[13px] text-yellow-500/80 animate-fadeIn">You haven't save the changes yet.</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="px-[20px] flex flex-col items-end">
+                    <div class="px-[15px] flex flex-col items-end">
                         <h1 class="text-[15px] font-medium flex items-center">
                             <img src="https://img.icons8.com/color/48/000000/verified-badge.png" class="w-[20px] mr-[5px]" />
                             Verified
@@ -247,7 +247,7 @@
                     </div>
                 </div>
 
-                <div class="px-[20px] mt-[30px] flex flex-col">
+                <div class="px-[15px] mt-[30px] flex flex-col">
                     <div class="w-full flex flex-col items-start">
                         <label for="fullname" class="text-[14px] flex items-center">
                             Full Name
