@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import parseText from "../functions/parseText";
 
 export const useAuthStore = defineStore('auth', () => {
     const id = ref(null);
@@ -37,17 +38,8 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     function bioHandler(value){
-        const regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g
-        const URLs = value.match(regex);
-        const breakpoints = value.split('\n');
-        
-        value = breakpoints.join(' <br/> ');
-        
-        URLs.forEach(url => {
-            value = value.replace(`${url}`, `<a href="${url}" target="_blank" rel="noreferrer" class="text-blue-400 font-medium hover:underline">${url}</a>`);
-        });
-
-        bio.value = value;
+        const result = parseText(value);
+        bio.value = result;
     }
 
     function messagesLengthHandler(value){
