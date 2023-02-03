@@ -36,7 +36,7 @@
 
 </script>
 <template>
-    <section class="animate-fadeIn mobileL:px-[15px]">
+    <section class="animate-fadeIn mobileL:px-[15px] tabletL:px-[30px] tabletM:px-[20px]">
         <LoadingUserMessageDetail v-if="loadingState" />
 
         <div v-else>
