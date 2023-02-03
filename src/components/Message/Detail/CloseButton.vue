@@ -8,5 +8,5 @@
     }
 </script>
 <template>
-    <button class="py-[2px] px-[5px] text-xs text-white/25 hover:text-white hover:bg-white/10 rounded-full" @click="toggleDetail({ show: false, id: null })">Close</button>
+    <button class="py-[5px] px-[10px] text-[14px] text-white/80 bg-white/10 rounded-full" @click="toggleDetail({ show: false, id: null })">Close</button>
 </template>
