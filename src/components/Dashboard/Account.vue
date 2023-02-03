@@ -55,37 +55,41 @@
 
 </script>
 <template>
-    <section class="animate-fadeIn mobileL:px-[15px] bg-white/5 border border-white/5 py-[20px] rounded-lg">
-        <div>
-            <h1 v-if="!open.credential.value && !open.getVerified.value && !open.deleteAccount.value" class="text-[18px] px-[20px]">Account Center</h1>
-            <div v-if="open.credential.value" class="px-[20px] pb-[20px] border-b border-white/10 flex items-center">
-                <button class="py-[5px] px-[15px] text-[14px] rounded-full bg-white/5 hover:bg-white/10" @click="backHandler">Back</button>
-                <h1 class="ml-[15px] text-[18px] font-medium">Account</h1>
+    <div class="mobileL:px-[15px] tabletL:px-[30px] tabletM:px-[20px]">
+        <section class="animate-fadeIn bg-white/5 border border-white/5 py-[20px] mobileL:py-[15px] rounded-lg">
+            <div>
+                <h1 v-if="!open.credential.value && !open.getVerified.value && !open.deleteAccount.value" class="text-[18px] px-[20px] font-medium">Account Center</h1>
+
+                <div v-if="open.credential.value" class="px-[20px] pb-[20px] mobileL:pb-[15px] mobileL:px-[15px] border-b border-white/10 flex items-center">
+                    <button class="py-[5px] px-[15px] text-[14px] rounded-full bg-white/5 hover:bg-white/10" @click="backHandler">Back</button>
+                    <h1 class="ml-[15px] text-[18px] font-medium">Account</h1>
+                </div>
+        
+                <div v-if="open.getVerified.value" class="px-[20px] pb-[20px] mobileL:pb-[15px] mobileL:px-[15px] border-b border-white/10 flex items-center">
+                    <button class="py-[5px] px-[15px] text-[14px] rounded-full bg-white/5 hover:bg-white/10" @click="backHandler">Back</button>
+                    <h1 class="ml-[15px] text-[18px] font-medium">Get Verified</h1>
+                </div>
+        
+                <div v-if="open.deleteAccount.value" class="px-[20px] pb-[20px] mobileL:pb-[15px] mobileL:px-[15px] border-b border-white/10 flex items-center">
+                    <button class="py-[5px] px-[15px] text-[14px] rounded-full bg-white/5 hover:bg-white/10" @click="backHandler">Back</button>
+                    <h1 class="ml-[15px] text-[18px] font-medium">Delete Account</h1>
+                </div>
             </div>
-
-            <div v-if="open.getVerified.value" class="px-[20px] pb-[20px] border-b border-white/10 flex items-center">
-                <button class="py-[5px] px-[15px] text-[14px] rounded-full bg-white/5 hover:bg-white/10" @click="backHandler">Back</button>
-                <h1 class="ml-[15px] text-[18px] font-medium">Get Verified</h1>
+        
+            <div v-if="!open.credential.value && !open.getVerified.value && !open.deleteAccount.value" class="mt-[20px] mobileL:mt-[15px] border-t border-white/10 animate-fadeIn">
+                <Item name="Account" desc="Email address, password" :image="credentialIcon" :handler="credentialHandler" />
+                <Item name="Get Verified" desc="Wanna get verified ?" :image="getVerifiedIcon" :handler="getVerifiedHandler" />
+                <Item name="Delete Account" desc="You'll lose your account" :image="deleteAccountIcon" :handler="deleteAccountHandler" />
             </div>
+        
+            <Account v-if="open.credential.value" />
+            <GetVerified v-if="open.getVerified.value" />
+            <DeleteAccount v-if="open.deleteAccount.value" />
+        </section>
+        
+        <button v-if="!open.credential.value && !open.getVerified.value && !open.deleteAccount.value" class="w-full mt-[20px] animate-fadeIn mobileL:px-[15px] bg-white/5 border border-red-400/30 py-[10px] bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg" @click="logoutHandler">
+            Logout
+        </button>
 
-            <div v-if="open.deleteAccount.value" class="px-[20px] pb-[20px] border-b border-white/10 flex items-center">
-                <button class="py-[5px] px-[15px] text-[14px] rounded-full bg-white/5 hover:bg-white/10" @click="backHandler">Back</button>
-                <h1 class="ml-[15px] text-[18px] font-medium">Delete Account</h1>
-            </div>
-        </div>
-
-        <div v-if="!open.credential.value && !open.getVerified.value && !open.deleteAccount.value" class="mt-[20px] border-t border-white/10 animate-fadeIn">
-            <Item name="Account" desc="Email address, password" :image="credentialIcon" :handler="credentialHandler" />
-            <Item name="Get Verified" desc="Wanna get verified ?" :image="getVerifiedIcon" :handler="getVerifiedHandler" />
-            <Item name="Delete Account" desc="You'll lose your account" :image="deleteAccountIcon" :handler="deleteAccountHandler" />
-        </div>
-
-        <Account v-if="open.credential.value" />
-        <GetVerified v-if="open.getVerified.value" />
-        <DeleteAccount v-if="open.deleteAccount.value" />
-    </section>
-
-    <button v-if="!open.credential.value && !open.getVerified.value && !open.deleteAccount.value" class="w-full mt-[20px] animate-fadeIn mobileL:px-[15px] bg-white/5 border border-red-400/30 py-[10px] bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg" @click="logoutHandler">
-        Logout
-    </button>
+    </div>
 </template>
