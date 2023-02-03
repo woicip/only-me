@@ -1,9 +1,9 @@
 <script setup>
     import { ref, onMounted } from 'vue';
-    import graphql from '../../fetchs/graphql';
-    import userDashboardQuery from '../../../graphql/query/userDashboard';
     import { useAuthStore } from '../../stores/authUser';
     import parseJWT from '../../functions/parseJWT';
+    import graphql from '../../fetchs/graphql';
+    import userDashboardQuery from '../../../graphql/query/userDashboard';
 
     // Components
     import LoadingUserProfile from '../Loading/UserProfile.vue';
@@ -71,6 +71,6 @@
             </div>
         </div>
 
-        <div v-if="authUser.bio !== null" v-bind:innerHTML="authUser.bio" class="mt-[30px] mobileL:mt-[30px] text-white text-[14px] mobileL:text-[13px]"></div>
+        <div v-if="authUser.bio !== null" v-bind:innerHTML="authUser.bio" class="mt-[30px] mobileL:mt-[30px] text-white text-[14px] font-medium mobileL:text-[13px]"></div>
     </section>
 </template>
