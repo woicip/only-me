@@ -16,10 +16,10 @@
     <div class="py-[20px] pb-[10px] px-[20px] animate-fadeIn">
         <div>
             <h1 class="text-[18px] font-medium">Why are you leaving ? 🙁</h1>
-            <p class="mt-[10px] text-white/80 leading-tight">Once you delete your account your data will be lost forever. You cannot restore your data after deletion process.</p>
+            <p class="mt-[10px] text-white/80 text-[15px] mobileL:text-[14px]">Once you delete your account your account will be lost forever. You cannot restore your account after deletion process.</p>
         </div>
 
-        <button v-if="!understand" class="mt-[40px] w-full py-[10px] font-semibold border border-white/30 transition-all hover:border-red-500/80 hover:bg-red-500/80 mt-[40px] rounded-lg animate-fadeIn" @click="understandHandler">I'm Understand</button>
+        <button v-if="!understand" class="mt-[40px] w-full py-[10px] font-semibold text-[15px] mobileL:text-[14px] text-white/60 border border-white/20 transition-all hover:border-red-500/80 hover:bg-red-500/80 mt-[40px] rounded-lg animate-fadeIn" @click="understandHandler">I'm Understand</button>
 
         <div v-else class="mt-[40px] animate-fadeIn">
             <label for="type" class="text-white/50 font-medium">Type <span class="font-semibold text-white/90">delete account</span> to proceed</label>
