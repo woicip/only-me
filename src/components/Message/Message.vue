@@ -1,6 +1,7 @@
 <script>
     import Comment from '../Comment/Index.vue';
     import MessageDetail from './Detail.vue';
+    import parseText from '../../functions/parseText';
 
     export default {
         components: {
@@ -26,7 +27,10 @@
             dateTimestamp(){
                 const numberedDate = parseInt(this.postedAt);
                 const dt = new Date(numberedDate);
-                return `${dt.getDate()} ${this.months[dt.getMonth()]} ${dt.getFullYear()}`
+                return `${this.months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`
+            },
+            messageContent(){
+                return parseText(this.message);
             }
         },  
         methods: {
@@ -43,14 +47,14 @@
             <div class="w-full flex items-start justify-between">
                 <div class="w-full text-left overflow-hidden">
                     <h1 class="text-[15px] font-bold">{{ sender }}</h1>
-                    <p v-bind:innerHTML="message" class="mt-[5px] text-[14px] mobileL:text-[14px] text-white/80"></p>
+                    <p v-bind:innerHTML="messageContent" class="mt-[5px] text-[14px] mobileL:text-[14px] text-white/80"></p>
                 </div>
             </div>
 
             <div class="flex items-center justify-between">
-                <p class="text-[12px] text-white/40 hover:underline">{{ comments.length }} Comments</p>
+                <p class="text-[12px] font-medium text-white/50 hover:underline">{{ comments.length }} Comments</p>
                 <div class="mx-[10px] w-[3px] h-[3px] bg-white/40 rounded-full"></div>
-                <p class="text-[12px] text-white/40 hover:underline">{{ dateTimestamp }}</p>
+                <p class="text-[12px] font-medium text-white/50 hover:underline">{{ dateTimestamp }}</p>
             </div>
         </button>
     </div>
