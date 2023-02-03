@@ -1,5 +1,5 @@
 <script>
-    import { computed } from '@vue/reactivity';
+    import { useAuthStore } from '../../stores/authUser';
 
     // Components
     import DetailContainer from './Detail/Container.vue';
@@ -22,7 +22,6 @@
     import graphql from '../../fetchs/graphql';
     import sendCommentQuery from '../../../graphql/mutation/sendComment';
     import deleteMessage from '../../../graphql/mutation/deleteMessage';
-import { useAuthStore } from '../../stores/authUser';
 
     export default {
         components: {
@@ -90,10 +89,11 @@ import { useAuthStore } from '../../stores/authUser';
                 const data = {
                     message_id: this.id,
                     author: this.authUser.isLoggedIn ? true : false,
-                    message: this.comment
+                    message: this.comment,
+                    postedAt: new Date()
                 }
 
-                const response = await graphql({ query: sendCommentQuery( data.message_id, data.author, data.message ) });
+                const response = await graphql({ query: sendCommentQuery( data.message_id, data.author, data.message, data.postedAt ) });
                 const { sendComment } = response.data;
 
                 if(sendComment.status === "OK"){
