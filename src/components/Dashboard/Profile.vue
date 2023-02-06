@@ -54,7 +54,8 @@
     }
 
     const userID = computed(() => {
-        return `https://onlyme.up.railway.app/user/${authUser.id}`;
+        const status = import.meta.env.VITE_ENV;
+        return status !== 'production' ? `${import.meta.env.VITE_LOCALHOST}/user/${authUser.id}` : `https://onlyme.up.railway.app/user/${authUser.id}`;
     });
 
     async function checkUsername(callback){

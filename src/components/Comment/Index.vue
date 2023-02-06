@@ -1,4 +1,6 @@
 <script>
+    import parseText from '../../functions/parseText';
+
     export default {
         props: {
             author: Number,
@@ -21,6 +23,9 @@
             },
             dateTimestamp(){
                 return `${this.months[this.month]} ${this.date}, ${this.year}`;
+            },
+            parsedMessage(){
+                return parseText(this.message);
             }
         }
     }
@@ -35,7 +40,7 @@
                 <div class="mx-[6px] w-[2px] h-[2px] bg-white/30 rounded-full"></div>
                 <p class="mb-[2px] mt-[2px] text-[12px] mobileL:text-[11px] text-white/30 px-[20]">{{ dateTimestamp }}</p>
             </div>
-            <p class="mt-[2px] text-[14px]">{{ message }}</p>
+            <p v-bind:innerHTML="parsedMessage" class="mt-[2px] text-[14px]"></p>
         </div>
     </section>
     
@@ -47,7 +52,7 @@
                 <div class="mx-[6px] w-[2px] h-[2px] bg-white/30 rounded-full"></div>
                 <p class="mb-[2px] mt-[2px] text-[12px] mobileL:text-[11px] text-white/30 px-[20]">{{ dateTimestamp }}</p>
             </div>
-            <p class="mt-[2px] text-[14px]">{{ message }}</p>
+            <p v-bind:innerHTML="parsedMessage" class="mt-[2px] text-[14px]"></p>
         </div>
     </section>
 </template>

@@ -1,8 +1,8 @@
 <script setup>
     const props = defineProps({
         comment: String,
-        commentInputHandler: Function,
-        textareaGrow: Function
+        CommentHandler: Function,
+        TextareaGrow: Function
     });
 
     function textAreaGrowHandler(e){
@@ -10,7 +10,7 @@
     }
 
     function inputHandler(e){
-        props.commentInputHandler(e.target.value);
+        props.CommentHandler(e.target.value);
     }
 </script>
 <template>

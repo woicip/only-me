@@ -21,7 +21,7 @@
                 <div class="mt-[5px] flex items-center">
                     <p class="text-white/90 mobileL:text-[14px]">{{ authUser.email }}</p>
                     <div class="w-[3px] h-[3px] mx-[10px] rounded-full bg-white/50"></div>
-                    <p class="px-[6px] py-[0px] rounded-full font-medium text-white/80 mobileL:text-[13px] text-[15px] bg-green-400/50">Verified</p>
+                    <p class="px-[6px] py-[0px] rounded-full font-medium text-white/80 mobileL:text-[13px] text-[14px] bg-green-400/50">Verified</p>
                 </div>
                 <p class="mt-[3px] text-[13px] text-white/50">Your email will not shown in public</p>
 

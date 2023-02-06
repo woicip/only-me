@@ -1,8 +1,5 @@
 <script setup>
-    import { ref, onMounted } from 'vue';
-    import { useRoute } from 'vue-router';
-    import graphql from '../../fetchs/graphql';
-    import userMessagesQuery from '../../../graphql/query/userMessages';
+    import { ref } from 'vue';
 
     // Components
     import MessagesLabel from '../User/MessagesLabel.vue';
@@ -14,50 +11,19 @@
     import LoadingContainer from './LoadingContainer.vue';
     import LoadingUserMessage from '../Loading/UserMessage.vue';
 
-    const route = useRoute();
-    const user_id = route.params.id;
-    const messages = ref([]);
-    
+    defineProps({
+        messages: Array
+    });
+
     const detail = {
         show: ref(false),
         id: ref(null)
     }
 
-    async function UserMessagesGraphQL(userID){
-        try {
-            const { data: { userMessages } } = await graphql({ query: userMessagesQuery(userID) });
-            return [ userMessages, null ];
-
-        } catch(err){
-            return [ null, true ];
-        }
-    }
-
-    async function GetUserMessages(){
-        const [ result, error ] = await UserMessagesGraphQL(user_id);
-
-        if(error){
-            alert("SOMETHING_WENT_WRONG");
-
-        } else {
-            if(result.status === 'OK'){
-                messages.value = result.messages;
-    
-            } else {
-                alert("Failed Getting Messages");
-            }
-        }
-
-    };
-
     function toggleDetail({ show, id }){
         detail.show.value = show;
         detail.id.value = id;
     }
-
-    onMounted(() => {
-        GetUserMessages();
-    });
 
 </script>
 <template>

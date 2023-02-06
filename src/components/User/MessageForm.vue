@@ -1,18 +1,16 @@
 <script setup>
     import { ref } from 'vue';
     import { useRoute } from 'vue-router';
-    import graphql from '../../fetchs/graphql';
-    import sendMessageQuery from '../../../graphql/mutation/sendMessage';
+    import SendMessageGraphQL from '../../../graphql/fetch/SendMessageGraphQL';
 
     // Components
-    import InputText from '../Input/Text.vue';
-    import InputTextarea from '../Input/Textarea.vue';
     import ActiveButton from '../Buttons/Active.vue';
     import LoadingButton from '../Buttons/Loading.vue';
     import DisabledButton from '../Buttons/Disable.vue';
 
-    // Fetchs
-    import UserMessagesGraphQL from '../../../graphql/fetch/UserMessagesGraphQL';
+    const props = defineProps({
+        GetUserMessages: Function
+    });
 
     const route = useRoute();
     const user_id = route.params.id;
@@ -29,34 +27,23 @@
         message.value = e.target.value;
     }
 
-    async function SendMessageGraphQL(userID, senderName, message){
-        try {
-            const date = new Date();
-            const sendMessageToUser = await graphql({ query: sendMessageQuery(userID, senderName, message, date) });
-            const { sendMessage } = sendMessageToUser.data;
-            return [ sendMessage, null ];
-
-        } catch(err){
-            return [ null, true ];
-        }
-    }
-
     async function SendMessage(){
         sendProcess.value = true;
 
         const senderName = `${sender.value.length < 1 ? "Anonymous" : sender.value}`;
-        const [ result, error ] = await SendMessageGraphQL(user_id, senderName, message.value);
+        const [ sendMessage, error ] = await SendMessageGraphQL(user_id, senderName, message.value);
 
         if(error){
             alert("SOMETHING_WENT_WRONG");
 
         } else {
-            const { status } = result;
+            const { status } = sendMessage;
 
             if(status === "OK"){
                 sender.value = "";
                 message.value = "";
                 sendProcess.value = false;
+                props.GetUserMessages();
     
             } else {
                 alert('FAILED TO SEND MESSAGE');
@@ -75,7 +62,7 @@
                 <div class="px-[15px]">
                     <div class="py-[10px] pb-[0px] px-[15px] group hover:bg-white/5 transition-all rounded-lg" :class="{ 'bg-white/5': sender.length }">
                         <label for="name" class="text-white/80 text-[14px]">Sender Name</label>
-                        <input id="name" type="text" placeholder="Anonymous" class="w-full pt-[5px] py-[15px] outline-none mobileL:text-[14px] text-white bg-transparent placeholder:text-white/30 transition-all" @input="senderInput">
+                        <input :value="sender" id="name" type="text" placeholder="Anonymous" class="w-full pt-[5px] py-[15px] outline-none mobileL:text-[14px] text-white bg-transparent placeholder:text-white/30 transition-all" @input="senderInput">
                     </div>
                 </div>
 
@@ -84,7 +71,7 @@
                 <div class="px-[15px]">
                     <div class="py-[10px] pb-[0px] px-[15px] group hover:bg-white/5 transition-all rounded-lg" :class="{ 'bg-white/5': message.length }">
                         <label for="message" class="text-white/80 text-[14px]">Message</label>
-                        <textarea id="message" type="text" placeholder="Your message ..." class="w-full h-[100px] pt-[5px] py-[10px] outline-none mobileL:text-[14px] resize-none text-white bg-transparent placeholder:text-white/30 focus:border-white/60 transition-all" @input="messageInput"></textarea>
+                        <textarea :value="message" id="message" type="text" placeholder="Your message ..." class="w-full h-[100px] pt-[5px] py-[10px] outline-none mobileL:text-[14px] resize-none text-white bg-transparent placeholder:text-white/30 focus:border-white/60 transition-all" @input="messageInput"></textarea>
                     </div>
                 </div>
 

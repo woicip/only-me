@@ -1,19 +1,19 @@
 <script setup>
     const props = defineProps({
         comment: String,
-        showSendProcess: Boolean,
+        ShowSendProcess: Boolean,
         handler: Function
     });
 
-    function userPostComment(){
+    function SendComment(){
         props.handler();
     }
 
 </script>
 <template>
     <div>
-        <button v-if="props.comment.length" class="w-[70px] h-full flex flex-col items-center justify-center px-4 text-white border-l border-white/10 bg-indigo-500" @click="userPostComment">
-            <p v-if="!props.showSendProcess" class="font-bold text-white">SEND</p>
+        <button v-if="props.comment.length" class="w-[70px] h-full flex flex-col items-center justify-center px-4 text-white border-l border-white/10 bg-indigo-500" @click="SendComment">
+            <p v-if="!props.ShowSendProcess" class="font-bold text-white">SEND</p>
             <img v-else src="../../../../assets/loading-white.svg" alt="loading" class="w-[38px] h-full" />
         </button>
 
