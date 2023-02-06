@@ -1,14 +1,18 @@
 <script setup>
     import { onMounted, ref } from 'vue';
+    import { useAuthStore } from '../../../stores/authUser';
     import VerifiedRequirementsGraphQL from '../../../../graphql/fetch/VerifiedRequirementsGraphQL';
+    import GetVerifiedGraphQL from '../../../../graphql/fetch/GetVerifiedGraphQL';
 
+    const authUser = useAuthStore();
+    const verified = ref(false);
     const verifiedRequirements = {
         messages: ref(0),
         comments: ref(0)
     }
+    const token = localStorage.getItem('onl_auth');
 
     async function getRequirements(){
-        const token = localStorage.getItem('onl_auth');
         const [ result, error ] = await VerifiedRequirementsGraphQL(token);
         
         if(error){
@@ -23,6 +27,21 @@
 
             } else {
                 alert("Can't get verified requirements!");
+            }
+        }
+    }
+
+    async function getVerified(){
+        const [ getVerified, error ] = await GetVerifiedGraphQL(token);
+
+        if(error){
+            alert("SOMETHING_WENT_WRONG");
+        } else {
+            if(getVerified.status === 'OK'){
+                authUser.verifiedHandler(true);
+
+            } else {
+                alert(getVerified.message);
             }
         }
     }
@@ -80,8 +99,16 @@
                 <p v-else class="mt-[20px] text-white/80 text-[15px] mobileL:text-[14px] font-medium">Reach the requirements to get your verified badge</p>
             </div>
 
-            <button v-if="verifiedRequirements.messages.value >= 1000 && verifiedRequirements.comments.value >= 500" class="w-full py-[10px] mt-[40px] bg-blue-500/90 font-medium rounded-lg hover:bg-blue-500/80">Get Verified</button>
-            <button v-else disabled class="w-full py-[10px] mt-[40px] bg-blue-500/90 font-medium rounded-lg opacity-50">Get Verified</button>
+            <div v-if="authUser.verified" class="mt-[40px] bg-blue-500/40 text-white font-semibold py-[10px] px-[20px] mobileL:px-[15px] rounded-lg flex items-center animate-fadeIn">
+                <img src="https://img.icons8.com/color/48/000000/verified-badge.png" class="w-[25px] mr-[10px]"/>
+                <p class="text-[15px] mobileL:text-[14px] font-semibold">Congratulations! You got verified.</p>
+            </div>
+
+            <div v-else>
+                <button v-if="verifiedRequirements.messages.value >= 1000 && verifiedRequirements.comments.value >= 500" class="w-full py-[10px] mt-[40px] bg-blue-500/90 font-medium rounded-lg hover:bg-blue-500/80 animate-fadeIn" @click="getVerified">Get Verified</button>
+                <button v-else disabled class="w-full py-[10px] mt-[40px] bg-blue-500/90 font-medium rounded-lg opacity-50">Get Verified</button>
+            </div>
+
         </div>
     </div>
 </template>
