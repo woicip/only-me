@@ -12,7 +12,8 @@
     import LoadingUserMessage from '../Loading/UserMessage.vue';
 
     defineProps({
-        messages: Array
+        messages: Array,
+        GetUserMessages: Function
     });
 
     const detail = {

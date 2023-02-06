@@ -6,7 +6,7 @@
     });
 
     function textAreaGrowHandler(e){
-        props.textareaGrow(e);
+        props.TextareaGrow(e);
     }
 
     function inputHandler(e){

@@ -45,7 +45,7 @@
                 <ProfileHeader />
             </ProfileContainer>
             <MessageForm :GetUserMessages="GetUserMessages" />
-            <Messages :messages="messages" />
+            <Messages :messages="messages" :GetUserMessages="GetUserMessages" />
         </section>
     </main>
 </template>
