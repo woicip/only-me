@@ -1,19 +1,9 @@
-export default function verifiedRequirements(id){
+export default function verifiedRequirements(token){
     return `query GetVerifiedRequirements {
-        getRequirements(id: "${id}"){
+        verifiedRequirements(token: "${token}"){
             status
-            messages {
-                id
-                sender
-                message
-                postedAt
-                comments {
-                    id
-                    author
-                    message
-                    postedAt
-                }
-            }
+            messages
+            comments
         }
     }`
 };
