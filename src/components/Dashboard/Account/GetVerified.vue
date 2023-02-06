@@ -5,7 +5,6 @@
     import GetVerifiedGraphQL from '../../../../graphql/fetch/GetVerifiedGraphQL';
 
     const authUser = useAuthStore();
-    const verified = ref(false);
     const verifiedRequirements = {
         messages: ref(0),
         comments: ref(0)
